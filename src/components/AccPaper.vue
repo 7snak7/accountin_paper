@@ -19,6 +19,7 @@
       </tr>
       <tr v-for="n in 7" :key="n">
         <td>{{n}}</td>
+
         <td><input class="inputName" type="text"></td>
         <td><input type="text" class="col"></td>
         <td></td>
