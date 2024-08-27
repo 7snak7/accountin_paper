@@ -1,15 +1,14 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <acc-paper></acc-paper>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AccPaper from './components/AccPaper.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    AccPaper
   }
 }
 </script>
