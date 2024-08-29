@@ -1,9 +1,18 @@
 <script>
-
+  export default {
+    name: "AccPaper",
+    data() {
+      return {
+        shop: '',
+        inputs: ['','','','','','',''],
+        col: ['','','','','','',''],
+      }
+    }
+  }
 </script>
 
 <template>
-  <div class="paper">
+  <div class="paper" v-for="i of 2" :key="i">
     <div class="head">
       <h3>Акт выполненных работ</h3>
       <div class="data">"__"____________20__г.</div>
@@ -11,9 +20,9 @@
     </div>
     <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
 
-    <div class="shop">
+    <div class="inputUnderline">
       Затребовал
-      <input class="inputName" type="text">
+      <input class="inputName" type="text" v-model="shop">
     </div>
     <table class="list">
       <tr class="head-list">
@@ -23,18 +32,42 @@
         <td>Цена</td>
         <td>Сумма</td>
       </tr>
-      <tr v-for="n in 7" :key="n">
+      <tr v-for="n in 5" :key="n">
         <td>{{ n }}</td>
-        <td><input class="inputName" type="text"></td>
-        <td><input type="text" class="col"></td>
+        <td><input class="inputName" type="text" v-model="inputs[n-1]"></td>
+        <td><input type="text" class="col" v-model="col[n-1]"></td>
         <td></td>
         <td></td>
       </tr>
     </table>
+    <div class="inputUnderline signature">
+      Отпустил
+    </div>
+    <div class="inputUnderline signature">
+      Получил
+    </div>
   </div>
 </template>
 
 <style scoped>
+
+  @media print {
+    /* Спрятать URL при печати */
+    a[href]:after { content: none; }
+    /* Обнулить поля на странице */
+    @page {
+      margin: 0;
+      size: A4;
+    }
+    html, body{
+      height: 297mm;
+      width: 210mm;
+    }
+    * {
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+  }
   .paper {
     max-width: 800px;
     margin-left: auto;
@@ -48,7 +81,7 @@
     float: left;
     text-transform: uppercase;
     width: 60%;
-    padding: 0px 30px;
+    padding: 10px 30px;
   }
   .data {
     text-align: left;
@@ -69,21 +102,34 @@
   img {
     max-width: 100%;
   }
-  .shop {
+  .inputUnderline {
     text-align: left;
-    float: left;
     width: 100%;
-    margin: 10px 0px;
+    padding: 0px 0px;
+    margin: 20px 0px;
     position: relative;
   }
-  .shop::before {
+  .inputUnderline input {
+    position: absolute;
+    width: 500px;
+    left: 130px;
+    bottom: 6px;
+  }
+  .inputUnderline::before {
     content: '';
     position: absolute;
     background-color: black;
-    width: 100%;
-    height: 1px;
-    bottom: 0;
-    left: 0;
+    width: 500px;
+    height: 2px;
+    bottom: 4px;
+    left: 130px;
+  }
+  .signature::after {
+    content: '(должность,подпись,расшифровка)';
+    font-size: 10px;
+    position: absolute;
+    left: 250px;
+    top: 18px;
   }
   .list {
     border-collapse: collapse;
@@ -102,7 +148,7 @@
   }
   .inputName {
     font-size: 12pt;
-    width: 300px;
+    width: 400px;
     border-style: none;
     //background-color: lightgray;
   }
