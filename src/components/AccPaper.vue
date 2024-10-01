@@ -3,9 +3,15 @@
     name: "AccPaper",
     data() {
       return {
-        shop: '',
-        inputs: ['','','','','','',''],
-        col: ['','','','','','',''],
+        shop: 'Аникс Офелия',
+        inputs: ['Изготовление и монтаж светового бокса Аникс',
+          'Изготовление и монтаж светового бокса Пекарня',
+          'Изготовление и монтаж светового бокса Супермаркет',
+          'Изготовление и монтаж светового бокса ХВ',
+          'Изготовление и монтаж комплекта наклеек на входную зону',
+          'Изготовление и монтаж Режима работ',
+          'Утилизация старых боксов'],
+        col: ['1','1','1','1','1','1','1'],
       }
     },
     methods:{
@@ -22,56 +28,23 @@
     <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
     <div class="data">"__"____________20__г.</div>
     <div class="number">№____</div>
-    <div class="shop">Затребовал</div>
-    <div class="list">
-      <div>№</div>
-      <div>Наименование</div>
-      <div>Кол-во</div>
-      <div>Цена</div>
-      <div>Сумма</div>
-
-      <div>1</div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-
-      <div>2</div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-
-      <div>3</div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-
-      <div>4</div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-
-      <div>5</div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-
-      <div>6</div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-
-      <div>7</div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+    <div class="shop">Затребовал&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; {{ shop }}</div>
+    <table class="list">
+      <tr class="headList">
+        <td>№</td>
+        <td>Наименование</td>
+        <td>Кол-во</td>
+        <td>Цена</td>
+        <td>Сумма</td>
+      </tr>
+      <tr v-for="n in inputs.length" :key="n">
+        <td>{{ n }}</td>
+        <td>&ensp;{{ inputs[n-1] }}</td>
+        <td>{{ col[n-1] }}</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
     <div class="released">Отпустил</div>
     <div class="received">Получил</div>
   </div>
@@ -99,18 +72,22 @@
   }
 
   .container {
-    width: 140mm;
+    width: 190mm;
     margin-left: auto;
     margin-right: auto;
     display: grid;
-    gap: 3mm;
+    gap: 3.5mm;
     padding: 5mm;
     background-color: white;
     border: 1px solid black;
-    grid-template-columns: 60mm 20mm 50mm;
-    grid-template-rows: 3mm 3mm 3mm auto 3mm 3mm;
+    grid-template-columns: 68mm 53mm 62mm;
+    grid-template-rows: 4mm 4mm 4mm auto 4mm 4mm;
+    page-break-inside: avoid;
   }
   .head {
+    text-transform: uppercase;
+    text-align: left;
+    font-size: 6mm;
     grid-column: 1/3;
   }
   .logo {
@@ -118,23 +95,38 @@
     grid-column: 3/4;
   }
   .shop, .received, .released {
+    text-align: left;
     grid-column: 1/4;
+    padding-bottom: 20px;
+    border-bottom: 1px solid black;
   }
-  .list {
+  .number, .data {
+    text-align: left;
+  }
+  .list{
     grid-column: 1/4;
-    display: grid;
-    grid-template-columns: 8mm auto 18mm 18mm 18mm;
-    border: 1px solid black;
+    border-collapse: collapse;
   }
-  .list div {
-    border: 1px solid black;
+  .headList{
+    font-weight: bold;
   }
-  .logo {
-    text-align: right;
-    float: right;
+  .list td {
+    border: 1px solid black;
+    font-size: 11pt;
+  }
+  td:nth-child(1) {
+    width: 6mm;
+  }
+  td:nth-child(2) {
+    text-align: left;
+  }
+  .headList td {
+    text-align: center;
+  }
+  td:nth-child(n+3) {
+    width: 15mm;
   }
   img {
     max-width: 100%;
   }
-
 </style>
