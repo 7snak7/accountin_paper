@@ -28,7 +28,7 @@
     <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
     <div class="data">"__"____________20__г.</div>
     <div class="number">№____</div>
-    <div class="shop">Затребовал&ensp; &ensp; &ensp; &ensp; &ensp; &ensp; {{ shop }}</div>
+    <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
     <table class="list">
       <tr class="headList">
         <td>№</td>
@@ -39,7 +39,7 @@
       </tr>
       <tr v-for="n in inputs.length" :key="n">
         <td>{{ n }}</td>
-        <td>&ensp;{{ inputs[n-1] }}</td>
+        <td>{{ inputs[n-1] }}</td>
         <td>{{ col[n-1] }}</td>
         <td></td>
         <td></td>
@@ -97,8 +97,34 @@
   .shop, .received, .released {
     text-align: left;
     grid-column: 1/4;
-    padding-bottom: 20px;
-    border-bottom: 1px solid black;
+    position: relative;
+  }
+  .shopName {
+    padding-left: 20mm;
+  }
+  .shop::before, .received::before, .released::before {
+    content: '';
+    position: absolute;
+    background-color: black;
+    width: 165mm;
+    height: 1px;
+    bottom: -1mm;
+    left: 25mm;
+  }
+  .released::before {
+    width: 170mm;
+    left: 20mm;
+  }
+  .received::before {
+    width: 172mm;
+    left: 18mm;
+  }
+  .released::after, .received::after {
+    content: '(должность, подпись, расшифровка)';
+    position: absolute;
+    font-size: 2.5mm;
+    bottom: -3.5mm;
+    left: 75mm;
   }
   .number, .data {
     text-align: left;
@@ -119,6 +145,7 @@
   }
   td:nth-child(2) {
     text-align: left;
+    padding-left: 3mm;
   }
   .headList td {
     text-align: center;
