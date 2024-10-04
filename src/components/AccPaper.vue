@@ -1,48 +1,72 @@
 <script>
+
   export default {
     name: "AccPaper",
     data() {
       return {
-        shop: 'Аникс Офелия',
-        inputs: ['Изготовление и монтаж светового бокса Аникс',
-          'Изготовление и монтаж светового бокса Пекарня',
-          'Изготовление и монтаж светового бокса Супермаркет',
-          'Изготовление и монтаж светового бокса ХВ',
-          'Изготовление и монтаж комплекта наклеек на входную зону',
-          'Изготовление и монтаж Режима работ',
-          'Утилизация старых боксов'],
-        col: ['1','1','1','1','1','1','1'],
+        shops: ['Аникс Офелия', 'Аникс Октябрьский', 'Аникс Амурский'],
+        works: [{ name: 'Изготовление и монтаж светового бокса Аникс', col: '1', price: '26000'},
+                { name: 'Изготовление и монтаж светового бокса Пекарня', col: '2', price: '24000'},
+                { name: 'Изготовление и монтаж светового бокса Супермаркет', col: '2', price: '32000'},
+                { name: 'Изготовление и монтаж светового бокса ХВ', col: '1', price: '10000'},
+                { name: 'Изготовление и монтаж комплекта наклеек на входную зону', col: '2', price: '500'},
+                { name: 'Изготовление и монтаж Режима работ', col: '1', price: '300'},
+        ],
         copies: 3,
+        visiblePrice: false,
+        blankHeight: '',
+      }
+    },
+    mounted() {
+      this.blankHeight = document.querySelector('.container').clientHeight;
+      let emptyElement = 0;
+      if (this.blankHeight <= 227) {
+        emptyElement = 6;
+      }else if (this.blankHeight <= 250) {
+        emptyElement = 5;
+      }else if (this.blankHeight <= 273) {
+        emptyElement = 4;
+      }else if (this.blankHeight <= 296) {
+        emptyElement = 3;
+      }else if (this.blankHeight <= 319) {
+        emptyElement = 2;
+      }else if (this.blankHeight <= 342) {
+        emptyElement = 1;
+      }
+      for (let i=0; i<emptyElement; i++) {
+        this.works.push({name: '', col: '', price: ''});
       }
     },
   }
 </script>
 
 <template>
-  <div class="container" v-for="m of copies" :key="m">
-    <div class="head">Акт выполненных работ</div>
-    <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
-    <div class="data">"__"____________20__г.</div>
-    <div class="number">№____</div>
-    <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
-    <table class="list">
-      <tr class="headList">
-        <td>№</td>
-        <td>Наименование</td>
-        <td>Кол-во</td>
-        <td>Цена</td>
-        <td>Сумма</td>
-      </tr>
-      <tr v-for="n in inputs.length" :key="n">
-        <td>{{ n }}</td>
-        <td>{{ inputs[n-1] }}</td>
-        <td>{{ col[n-1] }}</td>
-        <td></td>
-        <td></td>
-      </tr>
-    </table>
-    <div class="released">Отпустил</div>
-    <div class="received">Получил</div>
+  <div class="shopBlank" v-for="shop in shops" :key="shop">
+    <div class="container" v-for="n in copies" :key="n">
+      <div class="head">Акт выполненных работ</div>
+      <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
+      <div class="data">"__"____________20__г.</div>
+      <div class="number">№____</div>
+      <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
+      <table class="list">
+        <tr class="headList">
+          <td>№</td>
+          <td>Наименование</td>
+          <td>Кол-во</td>
+          <td v-if="visiblePrice">Цена</td>
+          <td v-if="visiblePrice">Сумма</td>
+        </tr>
+        <tr v-for="(work, index) in works" :key="index">
+          <td>{{ index + 1 }}</td>
+          <td>{{ work.name }}</td>
+          <td>{{ work.col }}</td>
+          <td v-if="visiblePrice">{{ work.price }}</td>
+          <td v-if="visiblePrice">{{ work.price*work.col }}</td>
+        </tr>
+      </table>
+      <div class="released">Отпустил</div>
+      <div class="received">Получил</div>
+    </div>
   </div>
 </template>
 
@@ -56,6 +80,9 @@
     padding: 0;
     size: A4;
   }
+  .shopBlank {
+    margin-top: 3mm;
+  }
   html, body{
     height: 297mm;
     width: 210mm;
@@ -64,6 +91,10 @@
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
   }
+}
+.shopBlank {
+  page-break-before: always;
+  margin-top: 5mm;
 }
 .container {
   width: 190mm;
