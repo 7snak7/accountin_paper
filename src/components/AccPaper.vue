@@ -10,10 +10,9 @@
                 { name: 'Изготовление и монтаж светового бокса Супермаркет', col: '2', price: '32000'},
                 { name: 'Изготовление и монтаж светового бокса ХВ', col: '1', price: '10000'},
                 { name: 'Изготовление и монтаж комплекта наклеек на входную зону', col: '2', price: '500'},
-                { name: 'Изготовление и монтаж Режима работ', col: '1', price: '300'},
-        ],
+                { name: 'Изготовление и монтаж Режима работ', col: '1', price: '300'},],
         copies: 3,
-        visiblePrice: false,
+        visiblePrice: true,
         blankHeight: '',
       }
     },
@@ -32,10 +31,13 @@
         emptyElement = 2;
       }else if (this.blankHeight <= 342) {
         emptyElement = 1;
+      }else if (this.blankHeight > 365) {
+        this.copies = 2;
       }
       for (let i=0; i<emptyElement; i++) {
         this.works.push({name: '', col: '', price: ''});
       }
+      console.log(this.blankHeight);
     },
   }
 </script>
@@ -61,7 +63,7 @@
           <td>{{ work.name }}</td>
           <td>{{ work.col }}</td>
           <td v-if="visiblePrice">{{ work.price }}</td>
-          <td v-if="visiblePrice">{{ work.price*work.col }}</td>
+          <td v-if="visiblePrice">{{ (work.price*work.col > 0) ? work.price*work.col : '' }}</td>
         </tr>
       </table>
       <div class="released">Отпустил</div>
