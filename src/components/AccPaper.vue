@@ -1,20 +1,46 @@
 <script>
+import html2pdf from "html2pdf.js";
 
   export default {
     name: "AccPaper",
     data() {
       return {
         shops: ['Аникс Офелия', 'Аникс Октябрьский', 'Аникс Амурский'],
-        works: [{ name: 'Изготовление и монтаж светового бокса Аникс', col: '1', price: '26000'},
-                { name: 'Изготовление и монтаж светового бокса Пекарня', col: '2', price: '24000'},
-                { name: 'Изготовление и монтаж светового бокса Супермаркет', col: '2', price: '32000'},
-                { name: 'Изготовление и монтаж светового бокса ХВ', col: '1', price: '10000'},
-                { name: 'Изготовление и монтаж комплекта наклеек на входную зону', col: '2', price: '500'},
-                { name: 'Изготовление и монтаж Режима работ', col: '1', price: '300'},],
+        works: [{ name: 'Изготовление и монтаж светового бокса Аникс', col: '', price: ''},
+                { name: 'Изготовление и монтаж светового бокса Пекарня', col: '', price: ''},
+                { name: 'Изготовление и монтаж светового бокса Супермаркет', col: '', price: ''},
+                { name: 'Изготовление и монтаж светового бокса ХВ', col: '', price: ''},
+                { name: 'Изготовление и монтаж комплекта наклеек на входную зону', col: '', price: ''},
+                { name: 'Изготовление и монтаж Режима работ', col: '', price: ''},],
         copies: 3,
         visiblePrice: true,
         blankHeight: '',
       }
+    },
+    methods: {
+      savePDF() {
+        const options = {
+          margin: 3,
+          filename: '1.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true },
+          jsPSF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: 'avoid-all' }
+        }
+        const printArea = document.getElementById('printArea');
+        printArea.style.visibility = 'visible';
+        // const noPrint = document.getElementById('noPrint');
+        // noPrint.style.visibility = 'hidden';
+        html2pdf()
+            .from(printArea)
+            .set(options)
+            .save()
+            .then(() => {
+              printArea.style.visibility = 'hidden';
+              // noPrint.style.display = '';
+              // hideEl.style.visibility = "visible";
+            })
+      },
     },
     mounted() {
       this.blankHeight = document.querySelector('.container').clientHeight;
@@ -37,37 +63,45 @@
       for (let i=0; i<emptyElement; i++) {
         this.works.push({name: '', col: '', price: ''});
       }
-      console.log(this.blankHeight);
     },
   }
 </script>
 
 <template>
-  <div class="shopBlank" v-for="shop in shops" :key="shop">
-    <div class="container" v-for="n in copies" :key="n">
-      <div class="head">Акт выполненных работ</div>
-      <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
-      <div class="data">"__"____________20__г.</div>
-      <div class="number">№____</div>
-      <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
-      <table class="list">
-        <tr class="headList">
-          <td>№</td>
-          <td>Наименование</td>
-          <td>Кол-во</td>
-          <td v-if="visiblePrice">Цена</td>
-          <td v-if="visiblePrice">Сумма</td>
-        </tr>
-        <tr v-for="(work, index) in works" :key="index">
-          <td>{{ index + 1 }}</td>
-          <td>{{ work.name }}</td>
-          <td>{{ work.col }}</td>
-          <td v-if="visiblePrice">{{ work.price }}</td>
-          <td v-if="visiblePrice">{{ (work.price*work.col > 0) ? work.price*work.col : '' }}</td>
-        </tr>
-      </table>
-      <div class="released">Отпустил</div>
-      <div class="received">Получил</div>
+  <div id="noPrint">
+    <button @click="savePDF">Save PDF</button>
+  </div>
+  <div id="printArea">
+    <div class="shopBlank" v-for="shop in shops" :key="shop">
+      <div class="container" v-for="n in copies" :key="n">
+        <div class="head">Акт выполненных работ</div>
+        <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
+        <div class="data">"__"____________20__г.</div>
+        <div class="number">№____</div>
+        <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
+        <table class="list">
+          <thead>
+            <tr class="headList">
+              <th>№</th>
+              <th>Наименование</th>
+              <th>Кол-во</th>
+              <th v-if="visiblePrice">Цена</th>
+              <th v-if="visiblePrice">Сумма</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(work, index) in works" :key="index">
+              <td>{{ index + 1 }}</td>
+              <td>{{ work.name }}</td>
+              <td>{{ work.col }}</td>
+              <td v-if="visiblePrice">{{ work.price }}</td>
+              <td v-if="visiblePrice">{{ (work.price*work.col > 0) ? work.price*work.col : '' }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="released">Отпустил</div>
+        <div class="received">Получил</div>
+      </div>
     </div>
   </div>
 </template>
@@ -82,8 +116,18 @@
     padding: 0;
     size: A4;
   }
+  #noPrint, #noPrint * {
+    display: none;
+  }
+  #printArea, #printArea * {
+    visibility: visible !important;
+  }
   .shopBlank {
-    margin-top: 3mm;
+    padding-top: 0 !important;
+    margin-top: 3mm !important;
+  }
+  .container {
+
   }
   html, body{
     height: 297mm;
@@ -94,9 +138,12 @@
     color-adjust: exact !important;
   }
 }
+#printArea {
+  visibility: hidden;
+}
 .shopBlank {
   page-break-before: always;
-  margin-top: 5mm;
+  padding-top: 5mm;
 }
 .container {
   width: 190mm;
@@ -163,9 +210,11 @@
 .headList{
   font-weight: bold;
 }
-.list td {
+.list td, .list th {
   border: 1px solid black;
   font-size: 11pt;
+  padding-left: 1mm;
+  padding-right: 1mm;
 }
 td:nth-child(1) {
   width: 6mm;
