@@ -5,15 +5,16 @@ import html2pdf from "html2pdf.js";
     name: "AccPaper",
     data() {
       return {
-        shops: ['Аникс Офелия', 'Аникс Октябрьский', 'Аникс Амурский'],
-        works: [{ name: 'Изготовление и монтаж светового бокса Аникс', col: '', price: ''},
-                { name: 'Изготовление и монтаж светового бокса Пекарня', col: '', price: ''},
-                { name: 'Изготовление и монтаж светового бокса Супермаркет', col: '', price: ''},
-                { name: 'Изготовление и монтаж светового бокса ХВ', col: '', price: ''},
-                { name: 'Изготовление и монтаж комплекта наклеек на входную зону', col: '', price: ''},
-                { name: 'Изготовление и монтаж Режима работ', col: '', price: ''},],
+        shops: [''],
+        works: [{ name: '', col: '', price: ''},
+                { name: '', col: '', price: ''},
+                { name: '', col: '', price: ''},
+                { name: '', col: '', price: ''},
+                { name: '', col: '', price: ''},
+                { name: '', col: '', price: ''},
+                { name: '', col: '', price: ''},],
         copies: 3,
-        visiblePrice: true,
+        visiblePrice: false,
         blankHeight: '',
       }
     },
@@ -28,7 +29,27 @@ import html2pdf from "html2pdf.js";
           pagebreak: { mode: 'avoid-all' }
         }
         const printArea = document.getElementById('printArea');
-        printArea.style.visibility = 'visible';
+        printArea.style.display = 'block';
+        this.blankHeight = document.querySelector('.container').clientHeight;
+        let emptyElement = 0;
+        if (this.blankHeight <= 227) {
+          emptyElement = 6;
+        }else if (this.blankHeight <= 250) {
+          emptyElement = 5;
+        }else if (this.blankHeight <= 273) {
+          emptyElement = 4;
+        }else if (this.blankHeight <= 296) {
+          emptyElement = 3;
+        }else if (this.blankHeight <= 319) {
+          emptyElement = 2;
+        }else if (this.blankHeight <= 342) {
+          emptyElement = 1;
+        }else if (this.blankHeight > 365) {
+          this.copies = 2;
+        }
+        for (let i=0; i<emptyElement; i++) {
+          this.works.push({name: '', col: '', price: ''});
+        }
         // const noPrint = document.getElementById('noPrint');
         // noPrint.style.visibility = 'hidden';
         html2pdf()
@@ -36,40 +57,42 @@ import html2pdf from "html2pdf.js";
             .set(options)
             .save()
             .then(() => {
-              printArea.style.visibility = 'hidden';
+              printArea.style.display = 'none';
               // noPrint.style.display = '';
               // hideEl.style.visibility = "visible";
             })
       },
-    },
-    mounted() {
-      this.blankHeight = document.querySelector('.container').clientHeight;
-      let emptyElement = 0;
-      if (this.blankHeight <= 227) {
-        emptyElement = 6;
-      }else if (this.blankHeight <= 250) {
-        emptyElement = 5;
-      }else if (this.blankHeight <= 273) {
-        emptyElement = 4;
-      }else if (this.blankHeight <= 296) {
-        emptyElement = 3;
-      }else if (this.blankHeight <= 319) {
-        emptyElement = 2;
-      }else if (this.blankHeight <= 342) {
-        emptyElement = 1;
-      }else if (this.blankHeight > 365) {
-        this.copies = 2;
-      }
-      for (let i=0; i<emptyElement; i++) {
-        this.works.push({name: '', col: '', price: ''});
-      }
+      priceOn() {
+        const indicator = document.querySelector('.indicator');
+        indicator.style.left = "110px";
+        this.visiblePrice = true;
+      },
+      priceOff() {
+        const indicator = document.querySelector('.indicator');
+        indicator.style.left = "0";
+        this.visiblePrice = false;
+      },
     },
   }
 </script>
 
 <template>
   <div id="noPrint">
-    <button @click="savePDF">Save PDF</button>
+    <div class="wrapper">
+      <div class="btn-wrapper">
+        <div class="indicator"></div>
+        <button class="toggle-btn" @click="priceOff">Нет цены</button>
+        <button class="toggle-btn" @click="priceOn">Есть цена</button>
+      </div>
+      <div class="form">
+        <h3>Магазин</h3>
+        <textarea rows="1" class="input" v-for="(shop, index) in shops" :key="index" v-model="shops[index]"></textarea>
+        <h3>Работы</h3>
+        <textarea rows="1" class="input" v-for="(work, index) in works" :key="index" v-model="works[index].name"></textarea>
+        <button class="btn" @click="savePDF">Сохранить PDF</button>
+<!--        <button class="btn" @click="savePDF">Печать</button>-->
+      </div>
+    </div>
   </div>
   <div id="printArea">
     <div class="shopBlank" v-for="shop in shops" :key="shop">
@@ -107,6 +130,78 @@ import html2pdf from "html2pdf.js";
 </template>
 
 <style scoped>
+#noPrint {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2c3e50;
+  z-index: 1;
+}
+.wrapper {
+  position: relative;
+  width: 330px;
+  height: max-content;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+}
+.btn-wrapper {
+  position: relative;
+  width: 220px;
+  margin: 35px auto;
+  border-radius: 30px;
+  box-shadow: 0 0 20px 9px #d3e7fa;
+}
+.toggle-btn {
+  position: relative;
+  padding: 10px 23px;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.indicator {
+  position: absolute;
+  width: 110px;
+  height: 100%;
+  background: #628bb5;
+  border-radius: 30px;
+  top: 0;
+  left: 0;
+  transition: 0.5s;
+}
+.form {
+  position: relative;
+  width: 320px;
+  transition: 0.5s;
+  left: 4px;
+  padding-bottom: 15px;
+}
+.input {
+  width: 100%;
+  height: min-content;
+  background: none;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #2c3e50;
+}
+.btn {
+  display: block;
+  width: 85%;
+  background-color: #628bb5;
+  font-weight: bold;
+  color: #fff;
+  font-size: 20px;
+  margin: 10px auto;
+  padding: 10px;
+  outline: none;
+  border: none;
+  border-radius: 30px;
+}
 @media print {
   /* Спрятать URL при печати */
   a[href]:after { content: none; }
@@ -119,8 +214,8 @@ import html2pdf from "html2pdf.js";
   #noPrint, #noPrint * {
     display: none;
   }
-  #printArea, #printArea * {
-    visibility: visible !important;
+  #printArea {
+    display: block !important;
   }
   .shopBlank {
     padding-top: 0 !important;
@@ -139,7 +234,7 @@ import html2pdf from "html2pdf.js";
   }
 }
 #printArea {
-  visibility: hidden;
+  display: none;
 }
 .shopBlank {
   page-break-before: always;
