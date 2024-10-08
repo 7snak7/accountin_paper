@@ -163,6 +163,7 @@ import html2pdf from "html2pdf.js";
   border: none;
   outline: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 .indicator {
   position: absolute;
