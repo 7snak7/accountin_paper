@@ -21,7 +21,7 @@ import html2pdf from "html2pdf.js";
     methods: {
       savePDF() {
         const options = {
-          margin: 3,
+          margin: 4,
           filename: '1.pdf',
           image: { type: 'jpeg', quality: 0.98 },
           html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true },
@@ -33,17 +33,17 @@ import html2pdf from "html2pdf.js";
         this.blankHeight = document.querySelector('.container').clientHeight;
         let emptyElement = 0;
         if (this.blankHeight <= 227) {
-          emptyElement = 6;
+          // emptyElement = 6;
         }else if (this.blankHeight <= 250) {
-          emptyElement = 5;
+          // emptyElement = 5;
         }else if (this.blankHeight <= 273) {
-          emptyElement = 4;
+          // emptyElement = 4;
         }else if (this.blankHeight <= 296) {
-          emptyElement = 3;
+          // emptyElement = 3;
         }else if (this.blankHeight <= 319) {
-          emptyElement = 2;
+          // emptyElement = 2;
         }else if (this.blankHeight <= 342) {
-          emptyElement = 1;
+          // emptyElement = 1;365
         }else if (this.blankHeight > 365) {
           this.copies = 2;
         }
@@ -208,7 +208,7 @@ import html2pdf from "html2pdf.js";
   a[href]:after { content: none; }
   /* Обнулить поля на странице */
   @page {
-    margin: 0;
+    margin: 15px;
     padding: 0;
     size: A4;
   }
@@ -220,7 +220,7 @@ import html2pdf from "html2pdf.js";
   }
   .shopBlank {
     padding-top: 0 !important;
-    margin-top: 3mm !important;
+    margin-top: 0 !important;
   }
   .container {
 
@@ -239,19 +239,18 @@ import html2pdf from "html2pdf.js";
 }
 .shopBlank {
   page-break-before: always;
-  padding-top: 5mm;
+  padding: 0;
 }
 .container {
-  width: 190mm;
-  margin-left: auto;
-  margin-right: auto;
+  width: 718px;
+  margin: 0 auto;
   display: grid;
-  gap: 3.5mm;
-  padding: 5mm;
+  gap: 13px;
+  padding: 18px;
   background-color: white;
   border: 1px solid black;
-  grid-template-columns: 68mm 53mm 62mm;
-  grid-template-rows: 4mm 4mm 4mm auto 4mm 4mm;
+  grid-template-columns: 257px 200px 235px;
+  grid-template-rows: 15px 15px 15px auto 15px 15px;
   page-break-inside: avoid;
 }
 .head {
@@ -270,31 +269,31 @@ import html2pdf from "html2pdf.js";
   position: relative;
 }
 .shopName {
-  padding-left: 20mm;
+  padding-left: 30px;
 }
 .shop::before, .received::before, .released::before {
   content: '';
   position: absolute;
   background-color: black;
-  width: 165mm;
+  width: 623px;
   height: 1px;
-  bottom: -1mm;
-  left: 25mm;
+  bottom: -4px;
+  left: 94px;
 }
 .released::before {
-  width: 170mm;
-  left: 20mm;
+  width: 642px;
+  left: 75px;
 }
 .received::before {
-  width: 172mm;
-  left: 18mm;
+  width: 649px;
+  left: 68px;
 }
 .released::after, .received::after {
   content: '(должность, подпись, расшифровка)';
   position: absolute;
-  font-size: 2.5mm;
-  bottom: -3.5mm;
-  left: 75mm;
+  font-size: 9px;
+  bottom: -14px;
+  left: 283px;
 }
 .number, .data {
   text-align: left;
@@ -309,21 +308,21 @@ import html2pdf from "html2pdf.js";
 .list td, .list th {
   border: 1px solid black;
   font-size: 11pt;
-  padding-left: 1mm;
-  padding-right: 1mm;
+  padding-left: 3px;
+  padding-right: 3px;
 }
 td:nth-child(1) {
-  width: 6mm;
+  width: 20px;
 }
 td:nth-child(2) {
   text-align: left;
-  padding-left: 3mm;
+  padding-left: 10px;
 }
 .headList td {
   text-align: center;
 }
 td:nth-child(n+3) {
-  width: 15mm;
+  width: 56px;
 }
 img {
   max-width: 100%;
