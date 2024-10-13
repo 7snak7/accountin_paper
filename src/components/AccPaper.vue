@@ -1,7 +1,9 @@
 <script>
 import html2pdf from "html2pdf.js";
+// import InputText from "./elements/InputText.vue";
+// import { ref } from "vue";
 
-  export default {
+export default {
     name: "AccPaper",
     data() {
       return {
@@ -18,7 +20,13 @@ import html2pdf from "html2pdf.js";
         blankHeight: '',
       }
     },
+    components: {
+      // InputText,
+    },
     methods: {
+      printPage() {
+        window.print();
+      },
       savePDF() {
         const options = {
           margin: 4,
@@ -86,11 +94,11 @@ import html2pdf from "html2pdf.js";
       </div>
       <div class="form">
         <h3>Магазин</h3>
-        <textarea rows="1" class="input" v-for="(shop, index) in shops" :key="index" v-model="shops[index]"></textarea>
+        <textarea class="input" rows="1" v-for="(shop, index) in shops" :key="index" v-model="shops[index]"></textarea>
         <h3>Работы</h3>
         <textarea rows="1" class="input" v-for="(work, index) in works" :key="index" v-model="works[index].name"></textarea>
         <button class="btn" @click="savePDF">Сохранить PDF</button>
-<!--        <button class="btn" @click="savePDF">Печать</button>-->
+        <button class="btn" @click="printPage">Печать</button>
       </div>
     </div>
   </div>
@@ -175,13 +183,6 @@ import html2pdf from "html2pdf.js";
   left: 0;
   transition: 0.5s;
 }
-.form {
-  position: relative;
-  width: 320px;
-  transition: 0.5s;
-  left: 4px;
-  padding-bottom: 15px;
-}
 .input {
   width: 100%;
   height: min-content;
@@ -189,6 +190,13 @@ import html2pdf from "html2pdf.js";
   outline: none;
   border: none;
   border-bottom: 1px solid #2c3e50;
+}
+.form {
+  position: relative;
+  width: 320px;
+  transition: 0.5s;
+  left: 4px;
+  padding-bottom: 15px;
 }
 .btn {
   display: block;
@@ -202,6 +210,16 @@ import html2pdf from "html2pdf.js";
   outline: none;
   border: none;
   border-radius: 30px;
+  box-shadow: 0 1px 1px rgba(255,255,255,0.8) inset, 1px 1px 5px rgba(0,0,0,0.4);
+  transition: all 0.3s ease-in-out;
+}
+.btn:hover {
+  background-color: #6f9cca;
+}
+.btn:active {
+  position:relative;
+  top:1px;
+  box-shadow:1px 1px 2px rgba(0,0,0,0.4) inset;
 }
 @media print {
   /* Спрятать URL при печати */
