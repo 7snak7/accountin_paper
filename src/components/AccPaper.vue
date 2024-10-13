@@ -3,8 +3,8 @@ import html2pdf from 'html2pdf.js'
 import InputText from './elements/InputText.vue'
 import { ref } from 'vue'
 
-const shops = ref(['an'])
-const works = ref([{ name: 'saf', col: '', price: '' },
+const shops = ref([''])
+const works = ref([{ name: '', col: '', price: '' },
   { name: '', col: '', price: '' },
   { name: '', col: '', price: '' },
   { name: '', col: '', price: '' },
