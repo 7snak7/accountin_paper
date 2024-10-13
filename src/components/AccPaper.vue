@@ -1,23 +1,26 @@
 <script setup>
-import html2pdf from "html2pdf.js"
-import InputText from "./elements/InputText.vue"
-import { ref } from "vue"
+import html2pdf from 'html2pdf.js'
+import InputText from './elements/InputText.vue'
+import { ref } from 'vue'
 
-const shops = ref (['an'])
-const works = ref ([{ name: 'saf', col: '', price: ''},
-                          { name: '', col: '', price: ''},
-                          { name: '', col: '', price: ''},
-                          { name: '', col: '', price: ''},
-                          { name: '', col: '', price: ''},
-                          { name: '', col: '', price: ''},
-                          { name: '', col: '', price: ''},])
-const copies = ref (3)
-const visiblePrice = ref (false)
-const blankHeight = ref ('')
+const shops = ref(['an'])
+const works = ref([{ name: 'saf', col: '', price: '' },
+  { name: '', col: '', price: '' },
+  { name: '', col: '', price: '' },
+  { name: '', col: '', price: '' },
+  { name: '', col: '', price: '' },
+  { name: '', col: '', price: '' },
+  { name: '', col: '', price: '' }
+])
+const copies = ref(3)
+const visiblePrice = ref(false)
+const blankHeight = ref('')
 
-function printPage() { window.print() }
+function printPage () {
+  window.print()
+}
 
-function savePDF() {
+function savePDF () {
   const options = {
     margin: 4,
     filename: '1.pdf',
@@ -29,45 +32,47 @@ function savePDF() {
   const printArea = document.getElementById('printArea')
   printArea.style.display = 'block'
   blankHeight.value = document.querySelector('.container').clientHeight
-  let emptyElement = 0
+  const emptyElement = 0
   if (blankHeight.value <= 227) {
     // emptyElement = 6
-  }else if (blankHeight.value <= 250) {
+  } else if (blankHeight.value <= 250) {
     // emptyElement = 5
-  }else if (blankHeight.value <= 273) {
+  } else if (blankHeight.value <= 273) {
     // emptyElement = 4
-  }else if (blankHeight.value <= 296) {
+  } else if (blankHeight.value <= 296) {
     // emptyElement = 3
-  }else if (blankHeight.value <= 319) {
+  } else if (blankHeight.value <= 319) {
     // emptyElement = 2
-  }else if (blankHeight.value <= 342) {
+  } else if (blankHeight.value <= 342) {
     // emptyElement = 1//365
-  }else if (blankHeight.value > 365) {
+  } else if (blankHeight.value > 365) {
     copies.value = 2
   }
-  for (let i=0; i<emptyElement; i++) {
-    this.works.push({name: '', col: '', price: ''})
+  for (let i = 0; i < emptyElement; i++) {
+    this.works.push({ name: '', col: '', price: '' })
   }
   // const noPrint = document.getElementById('noPrint')
   // noPrint.style.visibility = 'hidden'
   html2pdf()
-      .from(printArea)
-      .set(options)
-      .save()
-      .then(() => {
-        printArea.style.display = 'none'
-        // noPrint.style.display = ''
-        // hideEl.style.visibility = "visible"
-      })
+    .from(printArea)
+    .set(options)
+    .save()
+    .then(() => {
+      printArea.style.display = 'none'
+      // noPrint.style.display = ''
+      // hideEl.style.visibility = "visible"
+    })
 }
-function priceOn() {
+
+function priceOn () {
   const indicator = document.querySelector('.indicator')
-  indicator.style.left = "110px"
+  indicator.style.left = '110px'
   visiblePrice.value = true
 }
-function priceOff() {
+
+function priceOff () {
   const indicator = document.querySelector('.indicator')
-  indicator.style.left = "0"
+  indicator.style.left = '0'
   visiblePrice.value = false
 }
 </script>
@@ -82,9 +87,9 @@ function priceOff() {
       </div>
       <div class="form">
         <h3>Магазин</h3>
-        <InputText v-for="(shop, index) in shops" :key="index" v-model="shops[index]" />
+        <InputText v-for="(shop, index) in shops" :key="index" v-model="shops[index]"/>
         <h3>Работы</h3>
-        <InputText v-for="(work, index) in works" :key="index" v-model="works[index].name" />
+        <InputText v-for="(work, index) in works" :key="index" v-model="works[index].name"/>
         <button class="btn" @click="savePDF">Сохранить PDF</button>
         <button class="btn" @click="printPage">Печать</button>
       </div>
@@ -100,22 +105,22 @@ function priceOff() {
         <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
         <table class="list">
           <thead>
-            <tr class="headList">
-              <th>№</th>
-              <th>Наименование</th>
-              <th>Кол-во</th>
-              <th v-if="visiblePrice">Цена</th>
-              <th v-if="visiblePrice">Сумма</th>
-            </tr>
+          <tr class="headList">
+            <th>№</th>
+            <th>Наименование</th>
+            <th>Кол-во</th>
+            <th v-if="visiblePrice">Цена</th>
+            <th v-if="visiblePrice">Сумма</th>
+          </tr>
           </thead>
           <tbody>
-            <tr v-for="(work, index) in works" :key="index">
-              <td>{{ index + 1 }}</td>
-              <td>{{ work.name }}</td>
-              <td>{{ work.col }}</td>
-              <td v-if="visiblePrice">{{ work.price }}</td>
-              <td v-if="visiblePrice">{{ (work.price*work.col > 0) ? work.price*work.col : '' }}</td>
-            </tr>
+          <tr v-for="(work, index) in works" :key="index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ work.name }}</td>
+            <td>{{ work.col }}</td>
+            <td v-if="visiblePrice">{{ work.price }}</td>
+            <td v-if="visiblePrice">{{ (work.price * work.col > 0) ? work.price * work.col : '' }}</td>
+          </tr>
           </tbody>
         </table>
         <div class="released">Отпустил</div>
@@ -137,6 +142,7 @@ function priceOff() {
   background-color: #2c3e50;
   z-index: 1;
 }
+
 .wrapper {
   position: relative;
   width: 330px;
@@ -145,6 +151,7 @@ function priceOff() {
   border-radius: 10px;
   padding: 10px;
 }
+
 .btn-wrapper {
   position: relative;
   width: 220px;
@@ -152,6 +159,7 @@ function priceOff() {
   border-radius: 30px;
   box-shadow: 0 0 20px 9px #d3e7fa;
 }
+
 .toggle-btn {
   position: relative;
   padding: 10px 23px;
@@ -161,6 +169,7 @@ function priceOff() {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
+
 .indicator {
   position: absolute;
   width: 110px;
@@ -171,6 +180,7 @@ function priceOff() {
   left: 0;
   transition: 0.5s;
 }
+
 .form {
   position: relative;
   width: 320px;
@@ -178,6 +188,7 @@ function priceOff() {
   left: 4px;
   padding-bottom: 15px;
 }
+
 .btn {
   display: block;
   width: 85%;
@@ -190,55 +201,70 @@ function priceOff() {
   outline: none;
   border: none;
   border-radius: 30px;
-  box-shadow: 0 1px 1px rgba(255,255,255,0.8) inset, 1px 1px 5px rgba(0,0,0,0.4);
+  box-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) inset, 1px 1px 5px rgba(0, 0, 0, 0.4);
   transition: all 0.3s ease-in-out;
 }
+
 .btn:hover {
   background-color: #6f9cca;
 }
+
 .btn:active {
-  position:relative;
-  top:1px;
-  box-shadow:1px 1px 2px rgba(0,0,0,0.4) inset;
+  position: relative;
+  top: 1px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
 }
+
 @media print {
   /* Спрятать URL при печати */
-  a[href]:after { content: none; }
+  a[href]:after {
+    content: none;
+  }
+
   /* Обнулить поля на странице */
   @page {
     margin: 15px;
     padding: 0;
     size: A4;
   }
+
   #noPrint, #noPrint * {
     display: none;
   }
+
   #printArea {
     display: block !important;
   }
+
   .shopBlank {
     padding-top: 0 !important;
     margin-top: 0 !important;
   }
+
   .container {
 
   }
-  html, body{
+
+  html, body {
     height: 297mm;
     width: 210mm;
   }
+
   * {
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
   }
 }
+
 #printArea {
   display: none;
 }
+
 .shopBlank {
   page-break-before: always;
   padding: 0;
 }
+
 .container {
   width: 718px;
   margin: 0 auto;
@@ -251,24 +277,29 @@ function priceOff() {
   grid-template-rows: 15px 15px 15px auto 15px 15px;
   page-break-inside: avoid;
 }
+
 .head {
   text-transform: uppercase;
   text-align: left;
   font-size: 6mm;
   grid-column: 1/3;
 }
+
 .logo {
   grid-row: 1/3;
   grid-column: 3/4;
 }
+
 .shop, .received, .released {
   text-align: left;
   grid-column: 1/4;
   position: relative;
 }
+
 .shopName {
   padding-left: 30px;
 }
+
 .shop::before, .received::before, .released::before {
   content: '';
   position: absolute;
@@ -278,14 +309,17 @@ function priceOff() {
   bottom: -4px;
   left: 94px;
 }
+
 .released::before {
   width: 642px;
   left: 75px;
 }
+
 .received::before {
   width: 649px;
   left: 68px;
 }
+
 .released::after, .received::after {
   content: '(должность, подпись, расшифровка)';
   position: absolute;
@@ -293,35 +327,44 @@ function priceOff() {
   bottom: -14px;
   left: 283px;
 }
+
 .number, .data {
   text-align: left;
 }
-.list{
+
+.list {
   grid-column: 1/4;
   border-collapse: collapse;
 }
-.headList{
+
+.headList {
   font-weight: bold;
 }
+
 .list td, .list th {
   border: 1px solid black;
   font-size: 11pt;
   padding-left: 3px;
   padding-right: 3px;
 }
+
 td:nth-child(1) {
   width: 20px;
 }
+
 td:nth-child(2) {
   text-align: left;
   padding-left: 10px;
 }
+
 .headList td {
   text-align: center;
 }
+
 td:nth-child(n+3) {
   width: 56px;
 }
+
 img {
   max-width: 100%;
 }

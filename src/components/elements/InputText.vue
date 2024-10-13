@@ -1,9 +1,9 @@
 <script setup>
-  const model = defineModel()
+const model = defineModel()
 </script>
 
 <template>
-   <textarea rows="1" class="input" v-model="model"></textarea>
+  <textarea rows="1" class="input" v-model="model"></textarea>
 </template>
 
 <style scoped>
