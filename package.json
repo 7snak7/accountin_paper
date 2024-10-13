@@ -10,7 +10,7 @@
   "dependencies": {
     "core-js": "^3.8.3",
     "html2pdf.js": "^0.10.2",
-    "vue": "^3.2.13",
+    "vue": "^3.5.12",
     "vue-html2pdf": "^1.8.0"
   },
   "devDependencies": {
@@ -19,8 +19,8 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3"
+    "eslint": "^9.12.0",
+    "eslint-plugin-vue": "^9.29.0"
   },
   "eslintConfig": {
     "root": true,

@@ -1,87 +1,75 @@
-<script>
-import html2pdf from "html2pdf.js";
-// import InputText from "./elements/InputText.vue";
-// import { ref } from "vue";
+<script setup>
+import html2pdf from "html2pdf.js"
+import InputText from "./elements/InputText.vue"
+import { ref } from "vue"
 
-export default {
-    name: "AccPaper",
-    data() {
-      return {
-        shops: [''],
-        works: [{ name: '', col: '', price: ''},
-                { name: '', col: '', price: ''},
-                { name: '', col: '', price: ''},
-                { name: '', col: '', price: ''},
-                { name: '', col: '', price: ''},
-                { name: '', col: '', price: ''},
-                { name: '', col: '', price: ''},],
-        copies: 3,
-        visiblePrice: false,
-        blankHeight: '',
-      }
-    },
-    components: {
-      // InputText,
-    },
-    methods: {
-      printPage() {
-        window.print();
-      },
-      savePDF() {
-        const options = {
-          margin: 4,
-          filename: '1.pdf',
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true },
-          jsPSF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak: { mode: 'avoid-all' }
-        }
-        const printArea = document.getElementById('printArea');
-        printArea.style.display = 'block';
-        this.blankHeight = document.querySelector('.container').clientHeight;
-        let emptyElement = 0;
-        if (this.blankHeight <= 227) {
-          // emptyElement = 6;
-        }else if (this.blankHeight <= 250) {
-          // emptyElement = 5;
-        }else if (this.blankHeight <= 273) {
-          // emptyElement = 4;
-        }else if (this.blankHeight <= 296) {
-          // emptyElement = 3;
-        }else if (this.blankHeight <= 319) {
-          // emptyElement = 2;
-        }else if (this.blankHeight <= 342) {
-          // emptyElement = 1;365
-        }else if (this.blankHeight > 365) {
-          this.copies = 2;
-        }
-        for (let i=0; i<emptyElement; i++) {
-          this.works.push({name: '', col: '', price: ''});
-        }
-        // const noPrint = document.getElementById('noPrint');
-        // noPrint.style.visibility = 'hidden';
-        html2pdf()
-            .from(printArea)
-            .set(options)
-            .save()
-            .then(() => {
-              printArea.style.display = 'none';
-              // noPrint.style.display = '';
-              // hideEl.style.visibility = "visible";
-            })
-      },
-      priceOn() {
-        const indicator = document.querySelector('.indicator');
-        indicator.style.left = "110px";
-        this.visiblePrice = true;
-      },
-      priceOff() {
-        const indicator = document.querySelector('.indicator');
-        indicator.style.left = "0";
-        this.visiblePrice = false;
-      },
-    },
+const shops = ref (['an'])
+const works = ref ([{ name: 'saf', col: '', price: ''},
+                          { name: '', col: '', price: ''},
+                          { name: '', col: '', price: ''},
+                          { name: '', col: '', price: ''},
+                          { name: '', col: '', price: ''},
+                          { name: '', col: '', price: ''},
+                          { name: '', col: '', price: ''},])
+const copies = ref (3)
+const visiblePrice = ref (false)
+const blankHeight = ref ('')
+
+function printPage() { window.print() }
+
+function savePDF() {
+  const options = {
+    margin: 4,
+    filename: '1.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true },
+    jsPSF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: 'avoid-all' }
   }
+  const printArea = document.getElementById('printArea')
+  printArea.style.display = 'block'
+  blankHeight.value = document.querySelector('.container').clientHeight
+  let emptyElement = 0
+  if (blankHeight.value <= 227) {
+    // emptyElement = 6
+  }else if (blankHeight.value <= 250) {
+    // emptyElement = 5
+  }else if (blankHeight.value <= 273) {
+    // emptyElement = 4
+  }else if (blankHeight.value <= 296) {
+    // emptyElement = 3
+  }else if (blankHeight.value <= 319) {
+    // emptyElement = 2
+  }else if (blankHeight.value <= 342) {
+    // emptyElement = 1//365
+  }else if (blankHeight.value > 365) {
+    copies.value = 2
+  }
+  for (let i=0; i<emptyElement; i++) {
+    this.works.push({name: '', col: '', price: ''})
+  }
+  // const noPrint = document.getElementById('noPrint')
+  // noPrint.style.visibility = 'hidden'
+  html2pdf()
+      .from(printArea)
+      .set(options)
+      .save()
+      .then(() => {
+        printArea.style.display = 'none'
+        // noPrint.style.display = ''
+        // hideEl.style.visibility = "visible"
+      })
+}
+function priceOn() {
+  const indicator = document.querySelector('.indicator')
+  indicator.style.left = "110px"
+  visiblePrice.value = true
+}
+function priceOff() {
+  const indicator = document.querySelector('.indicator')
+  indicator.style.left = "0"
+  visiblePrice.value = false
+}
 </script>
 
 <template>
@@ -94,9 +82,9 @@ export default {
       </div>
       <div class="form">
         <h3>Магазин</h3>
-        <textarea class="input" rows="1" v-for="(shop, index) in shops" :key="index" v-model="shops[index]"></textarea>
+        <InputText v-for="(shop, index) in shops" :key="index" v-model="shops[index]" />
         <h3>Работы</h3>
-        <textarea rows="1" class="input" v-for="(work, index) in works" :key="index" v-model="works[index].name"></textarea>
+        <InputText v-for="(work, index) in works" :key="index" v-model="works[index].name" />
         <button class="btn" @click="savePDF">Сохранить PDF</button>
         <button class="btn" @click="printPage">Печать</button>
       </div>
@@ -182,14 +170,6 @@ export default {
   top: 0;
   left: 0;
   transition: 0.5s;
-}
-.input {
-  width: 100%;
-  height: min-content;
-  background: none;
-  outline: none;
-  border: none;
-  border-bottom: 1px solid #2c3e50;
 }
 .form {
   position: relative;

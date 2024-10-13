@@ -1,16 +1,9 @@
 <template>
-  <acc-paper></acc-paper>
+  <AccPaper />
 </template>
 
-<script>
+<script setup>
 import AccPaper from './components/AccPaper.vue'
-
-export default {
-  name: 'App',
-  components: {
-    AccPaper
-  }
-}
 </script>
 
 <style>
