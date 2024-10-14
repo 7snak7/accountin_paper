@@ -3,6 +3,7 @@ import { ref } from 'vue'
 // eslint-disable-next-line no-undef
 const model = defineModel()
 const txt = ref(null)
+txt.value = undefined
 function changeSize () {
   txt.value.style.height = 'min-content'
   const scHeight = txt.value.scrollHeight

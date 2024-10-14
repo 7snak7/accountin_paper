@@ -3,6 +3,11 @@ import html2pdf from 'html2pdf.js'
 import InputText from './elements/InputText.vue'
 import { ref } from 'vue'
 
+const blank = ref(null)
+blank.value = undefined
+const printForm = ref(null)
+printForm.value = undefined
+
 const shops = ref([''])
 const works = ref([{ name: '', col: '', price: '' },
   { name: '', col: '', price: '' },
@@ -29,9 +34,8 @@ function savePDF () {
     jsPSF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     pagebreak: { mode: 'avoid-all' }
   }
-  const printArea = document.getElementById('printArea')
-  printArea.style.display = 'block'
-  blankHeight.value = document.querySelector('.container').clientHeight
+  printForm.value.style.display = 'block'
+  blankHeight.value = blank.value.clientHeight
   const emptyElement = 0
   if (blankHeight.value <= 227) {
     // emptyElement = 6
@@ -54,11 +58,11 @@ function savePDF () {
   // const noPrint = document.getElementById('noPrint')
   // noPrint.style.visibility = 'hidden'
   html2pdf()
-    .from(printArea)
+    .from(printForm.value)
     .set(options)
     .save()
     .then(() => {
-      printArea.style.display = 'none'
+      printForm.value.style.display = 'none'
       // noPrint.style.display = ''
       // hideEl.style.visibility = "visible"
     })
@@ -95,9 +99,9 @@ function priceOff () {
       </div>
     </div>
   </div>
-  <div id="printArea">
+  <div ref="printForm" id="printArea">
     <div class="shopBlank" v-for="shop in shops" :key="shop">
-      <div class="container" v-for="n in copies" :key="n">
+      <div ref="blank" class="container" v-for="n in copies" :key="n">
         <div class="head">Акт выполненных работ</div>
         <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
         <div class="data">"__"____________20__г.</div>
@@ -213,6 +217,12 @@ function priceOff () {
   position: relative;
   top: 1px;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    width: 335px;
+  }
 }
 
 @media print {
