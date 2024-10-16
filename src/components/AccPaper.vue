@@ -139,8 +139,8 @@ function priceOff () {
             <td v-if="visiblePrice">{{
                 (work.price.replace(/,/g, '.').replace(/[^\d.-]/g, "")
                 * work.col.replace(/,/g, '.').replace(/[^\d.-]/g, "") > 0)
-                ? work.price.replace(/,/g, '.').replace(/[^\d.-]/g, "")
-                * work.col.replace(/,/g, '.').replace(/[^\d.-]/g, "") : '' }}</td>
+                ? (work.price.replace(/,/g, '.').replace(/[^\d.-]/g, "")
+                * work.col.replace(/,/g, '.').replace(/[^\d.-]/g, "")).toFixed(2) : '' }}</td>
           </tr>
           </tbody>
         </table>
