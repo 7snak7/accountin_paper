@@ -9,13 +9,13 @@ const printForm = ref(null)
 printForm.value = undefined
 
 const shops = ref([''])
-const works = ref([{ name: '', col: '', price: '' },
-  { name: '', col: '', price: '' },
-  { name: '', col: '', price: '' },
-  { name: '', col: '', price: '' },
-  { name: '', col: '', price: '' },
-  { name: '', col: '', price: '' },
-  { name: '', col: '', price: '' }
+const works = ref([ { name: '', col: '', price: '' },
+                          { name: '', col: '', price: '' },
+                          { name: '', col: '', price: '' },
+                          { name: '', col: '', price: '' },
+                          { name: '', col: '', price: '' },
+                          { name: '', col: '', price: '' },
+                          { name: '', col: '', price: '' }
 ])
 const copies = ref(3)
 const visiblePrice = ref(false)
@@ -136,7 +136,11 @@ function priceOff () {
             <td>{{ work.name }}</td>
             <td>{{ work.col }}</td>
             <td v-if="visiblePrice">{{ work.price }}</td>
-            <td v-if="visiblePrice">{{ (work.price * work.col > 0) ? work.price * work.col : '' }}</td>
+            <td v-if="visiblePrice">{{
+                (work.price.replace(/,/g, '.').replace(/[^\d.-]/g, "")
+                * work.col.replace(/,/g, '.').replace(/[^\d.-]/g, "") > 0)
+                ? work.price.replace(/,/g, '.').replace(/[^\d.-]/g, "")
+                * work.col.replace(/,/g, '.').replace(/[^\d.-]/g, "") : '' }}</td>
           </tr>
           </tbody>
         </table>
@@ -266,10 +270,6 @@ h3 {
   .shopBlank {
     padding-top: 0 !important;
     margin-top: 0 !important;
-  }
-
-  .container {
-
   }
 
   html, body {
