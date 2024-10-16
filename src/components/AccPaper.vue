@@ -139,15 +139,19 @@ function priceOff () {
 
 <style scoped>
 #noPrint {
-  padding: 0;
+  padding: 10px 0;
   margin: 0;
   height: 100vh;
   width: 100vw;
   display: flex;
-  align-items: center;
+  //align-items: center;
   justify-content: center;
   background-color: #2c3e50;
   z-index: 1;
+}
+
+h3 {
+  margin: 0;
 }
 
 .wrapper {
@@ -156,13 +160,13 @@ function priceOff () {
   height: max-content;
   background-color: #fff;
   border-radius: 10px;
-  padding: 10px;
+  padding: 5px;
 }
 
 .btn-wrapper {
   position: relative;
   width: 220px;
-  margin: 35px auto;
+  margin: 15px auto;
   border-radius: 30px;
   box-shadow: 0 0 20px 9px #d3e7fa;
 }
