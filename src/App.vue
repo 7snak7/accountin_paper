@@ -14,9 +14,11 @@ import AccPaper from './components/AccPaper.vue'
   text-align: center;
   color: #2c3e50;
 }
-body {
+html, body {
   padding: 0;
   margin: 0;
+  width: 100%;
+  height: 100%;
 }
 
 </style>

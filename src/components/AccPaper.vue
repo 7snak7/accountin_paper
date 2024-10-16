@@ -152,6 +152,7 @@ function priceOff () {
 </template>
 
 <style scoped>
+
 #noPrint {
   padding: 10px 0;
   margin: 0;
