@@ -91,10 +91,19 @@ function priceOff () {
       </div>
       <div class="form">
         <h3>Магазин</h3>
-        <InputText style="width: 304px" v-for="(shop, index) in shops" :key="index" v-model="shops[index]" :style="[ visiblePrice ? 'width: 365px' : 'width: 315px' ]"/>
+        <InputText
+            :style="[ visiblePrice ? 'width: 370px' : 'width: 315px' ]"
+            v-for="(shop, index) in shops"
+            :key="index"
+            v-model="shops[index]"
+        />
         <h3>Работы</h3>
-        <div v-for="(work, index) in works" :key="index" :style="[ visiblePrice ? 'width: 380px' : 'width: 330px' ]">
-          <InputText style="width: 270px" v-model="works[index].name"/>
+        <div
+            v-for="(work, index) in works" :key="index"
+            style="padding: 0; margin: 0;"
+            :style="[ visiblePrice ? 'width: 380px' : 'width: 325px' ]"
+        >
+          <InputText style="width: 275px" v-model="works[index].name"/>
           <InputText style="width: 30px" v-model="works[index].col"/>
           <InputText v-if="visiblePrice" style="width: 45px" v-model="works[index].price"/>
         </div>
