@@ -17,16 +17,16 @@ function changeSize () {
 
 <style scoped>
 textarea {
-  width: 100%;
+  margin: 2px;
   height: min-content;
   background: none;
   outline: none;
-  border: 1px solid #2c3e50;
+  border: 1px solid #89b1d8;
   border-radius: 5px;
   resize: none;
 }
 textarea:focus {
-  border: 2px solid #2c3e50;
+  border: 1px solid #000000;
 }
 textarea::-webkit-scrollbar {
   width: 0;
