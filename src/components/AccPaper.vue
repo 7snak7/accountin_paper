@@ -83,7 +83,7 @@ function priceOff () {
 
 <template>
   <div id="noPrint">
-    <div class="wrapper">
+    <div class="wrapper" :style="[ visiblePrice ? 'width: 386px' : 'width: 330px' ]">
       <div class="btn-wrapper">
         <div class="indicator"></div>
         <button class="toggle-btn" @click="priceOff">Нет цены</button>
@@ -91,11 +91,12 @@ function priceOff () {
       </div>
       <div class="form">
         <h3>Магазин</h3>
-        <InputText style="width: 304px" v-for="(shop, index) in shops" :key="index" v-model="shops[index]"/>
+        <InputText style="width: 304px" v-for="(shop, index) in shops" :key="index" v-model="shops[index]" :style="[ visiblePrice ? 'width: 365px' : 'width: 315px' ]"/>
         <h3>Работы</h3>
-        <div v-for="(work, index) in works" :key="index">
+        <div v-for="(work, index) in works" :key="index" :style="[ visiblePrice ? 'width: 380px' : 'width: 330px' ]">
           <InputText style="width: 270px" v-model="works[index].name"/>
           <InputText style="width: 30px" v-model="works[index].col"/>
+          <InputText v-if="visiblePrice" style="width: 45px" v-model="works[index].price"/>
         </div>
         <button class="btn" @click="savePDF">Сохранить PDF</button>
         <button class="btn" @click="printPage">Печать</button>
