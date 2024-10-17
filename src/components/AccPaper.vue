@@ -21,6 +21,10 @@ const copies = ref(3)
 const visiblePrice = ref(false)
 const blankHeight = ref('')
 
+function addShop () {
+  shops.value.push('')
+}
+
 function printPage () {
   window.print()
 }
@@ -97,7 +101,8 @@ function priceOff () {
             :key="index"
             v-model="shops[index]"
         />
-        <h3>Работы</h3>
+        <button class="add-btn" @click="addShop">Добавить магазин</button>
+        <h3>Выполненные работы</h3>
         <div
             v-for="(work, index) in works" :key="index"
             style="padding: 0; margin: 0;"
@@ -229,6 +234,30 @@ h3 {
   border-radius: 30px;
   box-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) inset, 1px 1px 5px rgba(0, 0, 0, 0.4);
   transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.add-btn {
+  border: none;
+  outline: none;
+  background: none;
+  color: #628bb5;
+  cursor: pointer;
+  position: relative;
+  font-size: 14px;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.add-btn:hover {
+  color: #094888;
+}
+.add-btn:after {
+  content: "\2295";
+  position: absolute;
+  font-size: 20px;
+  bottom: -4px;
+  left: -15px;
 }
 
 .btn:hover {
