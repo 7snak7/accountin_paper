@@ -368,7 +368,7 @@ h3 {
     size: A4;
   }
 
-  #noPrint, #noPrint * {
+  #noPrint, #noPrint *, .bg {
     display: none;
   }
 
