@@ -98,6 +98,7 @@ function priceOff () {
 </script>
 
 <template>
+  <div class="bg"></div>
   <div id="noPrint">
     <div class="wrapper" :style="[ visiblePrice ? 'width: 386px' : 'width: 330px' ]">
       <div class="wrapper-inner">
@@ -176,16 +177,22 @@ function priceOff () {
 </template>
 
 <style scoped>
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #2c3e50;
+}
 
 #noPrint {
+  width: 100%;
+  height: 100%;
   padding: 10px 0;
   margin: 0;
-  height: 100vh;
-  width: 100vw;
   display: flex;
-  //align-items: center;
   justify-content: center;
-  background-color: #2c3e50;
   z-index: 1;
 }
 
@@ -301,7 +308,7 @@ h3 {
   color: #671020;
 }
 .del-btn:after {
-  content: "\2295";
+  content: "\2296";
   position: absolute;
   font-size: 20px;
   bottom: -4px;
@@ -337,7 +344,7 @@ h3 {
   .wrapper {
     width: 335px;
   }
-  #noPrint {
+  .bg {
     background-color: #fff;
   }
 }
