@@ -241,9 +241,18 @@ h3 {
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 425px) {
   .wrapper {
     width: 335px;
+  }
+  #noPrint {
+    background-color: #fff;
+  }
+}
+
+@media (min-width: 760px) {
+  .wrapper {
+    width: 700px;
   }
 }
 
