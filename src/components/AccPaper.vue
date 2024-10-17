@@ -165,7 +165,8 @@ function priceOff () {
                 (work.price.replace(/,/g, '.').replace(/[^\d.-]/g, "")
                 * work.col.replace(/,/g, '.').replace(/[^\d.-]/g, "") > 0)
                 ? (work.price.replace(/,/g, '.').replace(/[^\d.-]/g, "")
-                * work.col.replace(/,/g, '.').replace(/[^\d.-]/g, "")).toFixed(2) : '' }}</td>
+                * work.col.replace(/,/g, '.').replace(/[^\d.-]/g, "")).toFixed(2)
+                +work.price.replace(/[0-9]/g, '')  : '' }}</td>
           </tr>
           </tbody>
         </table>
@@ -498,7 +499,7 @@ td:nth-child(2) {
 }
 
 td:nth-child(n+3) {
-  width: 56px;
+  width: 64px;
 }
 
 img {
