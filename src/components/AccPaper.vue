@@ -25,6 +25,18 @@ function addShop () {
   shops.value.push('')
 }
 
+function delShop () {
+  shops.value.pop()
+}
+
+function addWorks () {
+  works.value.push('')
+}
+
+function delWorks () {
+  works.value.pop()
+}
+
 function printPage () {
   window.print()
 }
@@ -88,10 +100,13 @@ function priceOff () {
 <template>
   <div id="noPrint">
     <div class="wrapper" :style="[ visiblePrice ? 'width: 386px' : 'width: 330px' ]">
-      <div class="btn-wrapper">
-        <div class="indicator"></div>
-        <button class="toggle-btn" @click="priceOff">Нет цены</button>
-        <button class="toggle-btn" @click="priceOn">Есть цена</button>
+      <div class="wrapper-inner">
+        <div class="btn-wrapper">
+          <div class="indicator"></div>
+          <button class="toggle-btn" @click="priceOff">Нет цены</button>
+          <button class="toggle-btn" @click="priceOn">Есть цена</button>
+        </div>
+        <input type="number" class="input" v-model="copies">
       </div>
       <div class="form">
         <h3>Магазин</h3>
@@ -100,8 +115,10 @@ function priceOff () {
             v-for="(shop, index) in shops"
             :key="index"
             v-model="shops[index]"
+            autofocus
         />
         <button class="add-btn" @click="addShop">Добавить магазин</button>
+        <button v-if="shops.length > 1" class="del-btn" @click="delShop">Удалить магазин</button>
         <h3>Выполненные работы</h3>
         <div
             v-for="(work, index) in works" :key="index"
@@ -112,6 +129,8 @@ function priceOff () {
           <InputText style="width: 30px" v-model="works[index].col"/>
           <InputText v-if="visiblePrice" style="width: 45px" v-model="works[index].price"/>
         </div>
+        <button class="add-btn" @click="addWorks">Добавить строку</button>
+        <button v-if="works.length > 1" class="del-btn" @click="delWorks">Удалить строку</button>
         <button class="btn" @click="savePDF">Сохранить PDF</button>
         <button class="btn" @click="printPage">Печать</button>
       </div>
@@ -183,6 +202,13 @@ h3 {
   padding: 5px;
 }
 
+.wrapper-inner {
+  display: grid;
+  gap: 13px;
+  grid-template-columns: 250px 40px;
+  justify-content: center;
+}
+
 .btn-wrapper {
   position: relative;
   width: 220px;
@@ -246,7 +272,7 @@ h3 {
   cursor: pointer;
   position: relative;
   font-size: 14px;
-  padding: 0;
+  padding: 0 18px;
   -webkit-tap-highlight-color: transparent;
 }
 .add-btn:hover {
@@ -257,7 +283,29 @@ h3 {
   position: absolute;
   font-size: 20px;
   bottom: -4px;
-  left: -15px;
+  left: 3px;
+}
+
+.del-btn {
+  border: none;
+  outline: none;
+  background: none;
+  color: #dc2b4c;
+  cursor: pointer;
+  position: relative;
+  font-size: 14px;
+  padding: 0 18px;
+  -webkit-tap-highlight-color: transparent;
+}
+.del-btn:hover {
+  color: #671020;
+}
+.del-btn:after {
+  content: "\2295";
+  position: absolute;
+  font-size: 20px;
+  bottom: -4px;
+  left: 3px;
 }
 
 .btn:hover {
@@ -268,6 +316,21 @@ h3 {
   position: relative;
   top: 1px;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+}
+
+.input {
+  margin: 20px 0;
+  padding: 2px;
+  height: 18px;
+  width: 30px;
+  background: none;
+  outline: none;
+  border: 1px solid #89b1d8;
+  border-radius: 5px;
+  resize: none;
+}
+.input:focus {
+  border: 1px solid #000000;
 }
 
 @media (max-width: 425px) {
