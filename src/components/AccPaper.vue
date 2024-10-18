@@ -286,13 +286,6 @@ h3 {
 .add-btn:hover {
   color: #094888;
 }
-.add-btn:after {
-  content: "\2295";
-  position: absolute;
-  font-size: 20px;
-  bottom: -4px;
-  left: 3px;
-}
 
 .del-btn {
   border: none;
@@ -307,13 +300,6 @@ h3 {
 }
 .del-btn:hover {
   color: #671020;
-}
-.del-btn:after {
-  content: "\2296";
-  position: absolute;
-  font-size: 20px;
-  bottom: -4px;
-  left: 3px;
 }
 
 .btn:hover {
