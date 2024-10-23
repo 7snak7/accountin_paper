@@ -3,18 +3,23 @@ import html2pdf from 'html2pdf.js'
 import InputText from '@/components/elements/InputText.vue'
 import DelBtn from '@/components/elements/DelBtn.vue'
 import RoundedButton from '@/components/elements/RoundedButton.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import AddBtn from '@/components/elements/AddBtn.vue'
 import DeleteBtn from '@/components/elements/DeleteBtn.vue'
+import InputDate from '@/components/elements/InputDate.vue'
+
+onMounted(() => {
+  const today = new Date()
+  date.value = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+})
 
 const blank = ref(null)
 blank.value = undefined
 const printForm = ref(null)
 printForm.value = undefined
 
-const today = new Date()
-const date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
-console.log(date)
+const date = ref(null)
+date.value = ''
 const shops = ref([''])
 const works = ref([ { name: '', col: '', price: '' },
                           { name: '', col: '', price: '' },
@@ -25,6 +30,12 @@ const works = ref([ { name: '', col: '', price: '' },
                           { name: '', col: '', price: '' }])
 const copies = ref(3)
 const visiblePrice = ref(false)
+
+function getDate () {
+  const months = [ "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря" ];
+  const dateSplit = date.value.split('-')
+  return dateSplit[2] + ' ' + months[dateSplit[1]-1] + ' ' + dateSplit[0];
+}
 
 function addShop () {
   shops.value.push('')
@@ -72,7 +83,7 @@ function savePDF () {
 
 function priceOn () {
   const indicator = document.querySelector('.indicator')
-  indicator.style.left = '110px'
+  indicator.style.left = '100px'
   visiblePrice.value = true
 }
 
@@ -93,7 +104,11 @@ function priceOff () {
           <button class="toggle-btn" @click="priceOff">Нет цены</button>
           <button class="toggle-btn" @click="priceOn">Есть цена</button>
         </div>
-        <input type="number" class="input" v-model="copies">
+        <div>
+          <input type="number" class="input" v-model="copies">
+          <label class="label">Копии</label>
+          <input-date v-model="date"/>
+        </div>
       </div>
       <div class="form">
         <h3>Магазин</h3>
@@ -112,7 +127,7 @@ function priceOff () {
             class="work"
         >
           <del-btn v-if="works.length > 1" @click="delWorksFromId(index)">X</del-btn>
-          <InputText style="flex: 1;" v-model="works[index].name"/>
+          <InputText style="flex: 1" v-model="works[index].name"/>
           <InputText style="width: 30px" v-model="works[index].col"/>
           <InputText v-if="visiblePrice" style="width: 45px" v-model="works[index].price"/>
         </div>
@@ -128,7 +143,8 @@ function priceOff () {
       <div ref="blank" class="container" v-for="n in copies" :key="n">
         <div class="head">Акт выполненных работ</div>
         <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
-        <div class="data">"__"____________20__г.</div>
+        <div v-if="date===''" class="data">"__"____________20__г.</div>
+        <div v-else class="data">{{ getDate() }} г.</div>
         <div class="number">№____</div>
         <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
         <table class="list">
@@ -198,22 +214,22 @@ h3 {
 
 .wrapper-inner {
   display: grid;
-  gap: 13px;
-  grid-template-columns: 250px 40px;
+  gap: 10px;
+  grid-template-columns: 220px 100px;
   justify-content: center;
 }
 
 .btn-wrapper {
   position: relative;
-  width: 220px;
+  width: 200px;
   margin: 15px auto;
   border-radius: 30px;
   box-shadow: 0 0 20px 9px #d3e7fa;
 }
-
 .toggle-btn {
   position: relative;
   padding: 10px 23px;
+  font-size: 11px;
   background: none;
   border: none;
   outline: none;
@@ -223,7 +239,7 @@ h3 {
 
 .indicator {
   position: absolute;
-  width: 110px;
+  width: 100px;
   height: 100%;
   background: #628bb5;
   border-radius: 30px;
@@ -240,10 +256,11 @@ h3 {
 
 .work {
   display: flex;
+  gap: 2px;
 }
 
 .input {
-  margin: 20px 0;
+  margin-top: 10px;
   padding: 2px;
   height: 18px;
   width: 30px;
@@ -255,6 +272,11 @@ h3 {
 }
 .input:focus {
   border: 1px solid #000000;
+}
+.label {
+  font-size: 12px;
+  margin-left: 5px;
+  color: #628bb5;
 }
 
 @media (max-width: 425px) {

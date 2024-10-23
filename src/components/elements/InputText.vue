@@ -17,8 +17,8 @@ function changeSize () {
 
 <style scoped>
 textarea {
-  margin: 2px;
-  padding: 2px;
+  margin: 1px 0;
+  padding: 2px 0;
   height: 35px;
   background: none;
   outline: none;
