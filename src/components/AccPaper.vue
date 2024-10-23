@@ -1,13 +1,20 @@
 <script setup>
 import html2pdf from 'html2pdf.js'
-import InputText from './elements/InputText.vue'
+import InputText from '@/components/elements/InputText.vue'
+import DelBtn from '@/components/elements/DelBtn.vue'
+import RoundedButton from '@/components/elements/RoundedButton.vue'
 import { ref } from 'vue'
+import AddBtn from '@/components/elements/AddBtn.vue'
+import DeleteBtn from '@/components/elements/DeleteBtn.vue'
 
 const blank = ref(null)
 blank.value = undefined
 const printForm = ref(null)
 printForm.value = undefined
 
+const today = new Date()
+const date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+console.log(date)
 const shops = ref([''])
 const works = ref([ { name: '', col: '', price: '' },
                           { name: '', col: '', price: '' },
@@ -15,11 +22,9 @@ const works = ref([ { name: '', col: '', price: '' },
                           { name: '', col: '', price: '' },
                           { name: '', col: '', price: '' },
                           { name: '', col: '', price: '' },
-                          { name: '', col: '', price: '' }
-])
+                          { name: '', col: '', price: '' }])
 const copies = ref(3)
 const visiblePrice = ref(false)
-const blankHeight = ref('')
 
 function addShop () {
   shops.value.push('')
@@ -37,6 +42,11 @@ function delWorks () {
   works.value.pop()
 }
 
+function delWorksFromId (id) {
+  works.value.splice(id, 1)
+
+}
+
 function printPage () {
   window.print()
 }
@@ -51,36 +61,12 @@ function savePDF () {
     pagebreak: { mode: 'avoid-all' }
   }
   printForm.value.style.display = 'block'
-  blankHeight.value = blank.value.clientHeight
-  const emptyElement = 0
-  if (blankHeight.value <= 227) {
-    // emptyElement = 6
-  } else if (blankHeight.value <= 250) {
-    // emptyElement = 5
-  } else if (blankHeight.value <= 273) {
-    // emptyElement = 4
-  } else if (blankHeight.value <= 296) {
-    // emptyElement = 3
-  } else if (blankHeight.value <= 319) {
-    // emptyElement = 2
-  } else if (blankHeight.value <= 342) {
-    // emptyElement = 1//365
-  } else if (blankHeight.value > 365) {
-    copies.value = 2
-  }
-  for (let i = 0; i < emptyElement; i++) {
-    this.works.push({ name: '', col: '', price: '' })
-  }
-  // const noPrint = document.getElementById('noPrint')
-  // noPrint.style.visibility = 'hidden'
   html2pdf()
     .from(printForm.value)
     .set(options)
     .save()
     .then(() => {
       printForm.value.style.display = 'none'
-      // noPrint.style.display = ''
-      // hideEl.style.visibility = "visible"
     })
 }
 
@@ -100,7 +86,7 @@ function priceOff () {
 <template>
   <div class="bg"></div>
   <div id="noPrint">
-    <div class="wrapper" :style="[ visiblePrice ? 'width: 386px' : 'width: 330px' ]">
+    <div class="wrapper">
       <div class="wrapper-inner">
         <div class="btn-wrapper">
           <div class="indicator"></div>
@@ -112,28 +98,28 @@ function priceOff () {
       <div class="form">
         <h3>Магазин</h3>
         <InputText
-            :style="[ visiblePrice ? 'width: 370px' : 'width: 315px' ]"
+            style="width: 100%"
             v-for="(shop, index) in shops"
             :key="index"
             v-model="shops[index]"
             autofocus
         />
-        <button class="add-btn" @click="addShop">Добавить магазин</button>
-        <button v-if="shops.length > 1" class="del-btn" @click="delShop">Удалить магазин</button>
+        <add-btn class="add-btn" @click="addShop">Добавить магазин</add-btn>
+        <delete-btn v-if="shops.length > 1" class="del-btn" @click="delShop">Удалить магазин</delete-btn>
         <h3>Выполненные работы</h3>
         <div
             v-for="(work, index) in works" :key="index"
-            style="padding: 0; margin: 0;"
-            :style="[ visiblePrice ? 'width: 380px' : 'width: 325px' ]"
+            class="work"
         >
-          <InputText style="width: 275px" v-model="works[index].name"/>
+          <del-btn v-if="works.length > 1" @click="delWorksFromId(index)">X</del-btn>
+          <InputText style="flex: 1;" v-model="works[index].name"/>
           <InputText style="width: 30px" v-model="works[index].col"/>
           <InputText v-if="visiblePrice" style="width: 45px" v-model="works[index].price"/>
         </div>
-        <button class="add-btn" @click="addWorks">Добавить строку</button>
-        <button v-if="works.length > 1" class="del-btn" @click="delWorks">Удалить строку</button>
-        <button class="btn" @click="savePDF">Сохранить PDF</button>
-        <button class="btn" @click="printPage">Печать</button>
+        <add-btn class="add-btn" @click="addWorks">Добавить строку</add-btn>
+        <delete-btn v-if="works.length > 1" class="del-btn" @click="delWorks">Удалить строку</delete-btn>
+        <rounded-button @click="savePDF">Сохранить PDF</rounded-button>
+        <rounded-button @click="printPage">Печать</rounded-button>
       </div>
     </div>
   </div>
@@ -248,68 +234,12 @@ h3 {
 
 .form {
   position: relative;
-  width: 320px;
   transition: 0.5s;
-  left: 4px;
   padding-bottom: 15px;
 }
 
-.btn {
-  display: block;
-  width: 85%;
-  background-color: #628bb5;
-  font-weight: bold;
-  color: #fff;
-  font-size: 20px;
-  margin: 10px auto;
-  padding: 10px;
-  outline: none;
-  border: none;
-  border-radius: 30px;
-  box-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) inset, 1px 1px 5px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.add-btn {
-  border: none;
-  outline: none;
-  background: none;
-  color: #628bb5;
-  cursor: pointer;
-  position: relative;
-  font-size: 14px;
-  padding: 0 18px;
-  -webkit-tap-highlight-color: transparent;
-}
-.add-btn:hover {
-  color: #094888;
-}
-
-.del-btn {
-  border: none;
-  outline: none;
-  background: none;
-  color: #dc2b4c;
-  cursor: pointer;
-  position: relative;
-  font-size: 14px;
-  padding: 0 18px;
-  -webkit-tap-highlight-color: transparent;
-}
-.del-btn:hover {
-  color: #671020;
-}
-
-.btn:hover {
-  background-color: #6f9cca;
-}
-
-.btn:active {
-  position: relative;
-  top: 1px;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
+.work {
+  display: flex;
 }
 
 .input {
