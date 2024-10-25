@@ -46,7 +46,7 @@ function delShop () {
 }
 
 function addWorks () {
-  works.value.push('')
+  works.value.push({ name: '', col: '', price: '' })
 }
 
 function delWorks () {
@@ -55,6 +55,7 @@ function delWorks () {
 
 function delWorksFromId (id) {
   works.value.splice(id, 1)
+  works.value.push({ name: '', col: '', price: '' })
 
 }
 
