@@ -64,9 +64,18 @@ function printPage () {
 }
 
 function savePDF () {
+  let fileName = shops.value[0] === '' ? 'Unnamed.pdf' : shops.value[0]
+  if (shops.value.length > 1) {
+    fileName = ''
+    for (let shop of shops.value) {
+      fileName += shop + '_'
+    }
+    fileName = fileName.slice(0,-1)
+    fileName += '.pdf'
+  }
   const options = {
     margin: 4,
-    filename: '1.pdf',
+    filename: fileName,
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true },
     jsPSF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
