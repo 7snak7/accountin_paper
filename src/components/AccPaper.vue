@@ -3,15 +3,10 @@ import html2pdf from 'html2pdf.js'
 import InputText from '@/components/elements/InputText.vue'
 import DelBtn from '@/components/elements/DelBtn.vue'
 import RoundedButton from '@/components/elements/RoundedButton.vue'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import AddBtn from '@/components/elements/AddBtn.vue'
 import DeleteBtn from '@/components/elements/DeleteBtn.vue'
 import InputDate from '@/components/elements/InputDate.vue'
-
-onMounted(() => {
-  const today = new Date()
-  date.value = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-})
 
 const blank = ref(null)
 blank.value = undefined
@@ -19,7 +14,9 @@ const printForm = ref(null)
 printForm.value = undefined
 
 const date = ref(null)
-date.value = ''
+const today = new Date()
+const day = today.getDate() > 9 ? today.getDate() : '0' + today.getDate()
+date.value = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ day
 const shops = ref([''])
 const works = ref([ { name: '', col: '', price: '' },
                           { name: '', col: '', price: '' },
