@@ -118,7 +118,7 @@ function priceOff () {
           <input type="number" class="input" v-model="copies">
           <label class="label">Копии</label>
           <input-date v-model="date"/>
-          <InputText v-model="score"/>
+          <InputText style="width: 60px" v-model="score"/>
         </div>
       </div>
       <div class="form">
@@ -152,6 +152,9 @@ function priceOff () {
   <div ref="printForm" id="printArea">
     <div class="shopBlank" v-for="shop in shops" :key="shop">
       <div ref="blank" class="container" v-for="n in copies" :key="n">
+        <img class="signature" alt="signature" src="../assets/signature.png">
+        <img class="stamp" alt="stamp" src="../assets/stamp.png">
+
         <div class="head">Акт выполненных работ</div>
         <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
         <div v-if="date===''" class="data">"__"____________20__г.</div>
@@ -191,6 +194,20 @@ function priceOff () {
 </template>
 
 <style scoped>
+.signature {
+  position:absolute;
+  top: 240px;
+  left: 150px;
+  width: 30%;
+}
+
+.stamp {
+  position:absolute;
+  top: 175px;
+  left: 50px;
+  width: 20%;
+}
+
 .bg {
   position: fixed;
   top: 0;
@@ -352,6 +369,7 @@ h3 {
 }
 
 .container {
+  position:relative;
   width: 718px;
   margin: 0 auto;
   display: grid;
