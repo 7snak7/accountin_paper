@@ -16,8 +16,8 @@ input {
   border-radius: 30px;
   padding-left: 10px;
   font-weight: bold;
-  font-size: 10px;
-  width: 80px;
+  font-size: 15px;
+  width: 130px;
 }
 ::-webkit-calendar-picker-indicator {
 

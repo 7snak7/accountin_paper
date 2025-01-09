@@ -7,6 +7,8 @@ import { ref } from 'vue'
 import AddBtn from '@/components/elements/AddBtn.vue'
 import DeleteBtn from '@/components/elements/DeleteBtn.vue'
 import InputDate from '@/components/elements/InputDate.vue'
+import InputCheckBox from '@/components/elements/InputCheckBox.vue'
+import InputCheckBox2 from '@/components/elements/InputCheckBox2.vue'
 
 const blank = ref(null)
 blank.value = undefined
@@ -30,6 +32,7 @@ const copies = ref(3)
 const score = ref(null)
 score.value = ''
 const visiblePrice = ref(false)
+const visibleSignatureAndStamp = ref(true)
 
 function getDate () {
   const months = [ "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря" ];
@@ -91,34 +94,31 @@ function savePDF () {
     })
 }
 
-function priceOn () {
-  const indicator = document.querySelector('.indicator')
-  indicator.style.left = '100px'
-  visiblePrice.value = true
-}
-
-function priceOff () {
-  const indicator = document.querySelector('.indicator')
-  indicator.style.left = '0'
-  visiblePrice.value = false
-}
 </script>
 
 <template>
   <div class="bg"></div>
   <div id="noPrint">
     <div class="wrapper">
-      <div class="wrapper-inner">
-        <div class="btn-wrapper">
-          <div class="indicator"></div>
-          <button class="toggle-btn" @click="priceOff">Нет цены</button>
-          <button class="toggle-btn" @click="priceOn">Есть цена</button>
+      <div >
+        <div style="display: inline-block;">
+          <label class="label">Цены</label>
+          <InputCheckBox v-model="visiblePrice"/>
         </div>
-        <div>
-          <input type="number" class="input" v-model="copies">
-          <label class="label">Копии</label>
-          <input-date v-model="date"/>
-          <InputText style="width: 60px" v-model="score"/>
+        <div style="display: inline-block;">
+          <label class="label">Печать и подпись</label>
+          <InputCheckBox2 v-model="visibleSignatureAndStamp"/>
+        </div>
+        <div style="display: inline-block;">
+          <label for="copies" class="label">Копии </label>
+          <input id="copies" style="width: 50px" type="number" class="input" v-model="copies">
+        </div>
+        <div style="display: inline-block;">
+          <label for="score" class="label">Счет </label>
+          <input id="score" style="width: 50px" type="number" class="input" v-model="score">
+        </div>
+        <div style="display: inline-block;">
+          <input-date style="margin: 10px" v-model="date"/>
         </div>
       </div>
       <div class="form">
@@ -149,17 +149,16 @@ function priceOff () {
       </div>
     </div>
   </div>
+
   <div ref="printForm" id="printArea">
     <div class="shopBlank" v-for="shop in shops" :key="shop">
       <div ref="blank" class="container" v-for="n in copies" :key="n">
-        <img class="signature" alt="signature" src="../assets/signature.png">
-        <img class="stamp" alt="stamp" src="../assets/stamp.png">
-
         <div class="head">Акт выполненных работ</div>
         <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
         <div v-if="date===''" class="data">"__"____________20__г.</div>
         <div v-else class="data">{{ getDate() }} г.</div>
-        <div class="number">№ {{ score }}</div>
+        <div v-if="score===''" class="number">№_____</div>
+        <div v-else class="number">№ {{ score }}</div>
         <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
         <table class="list">
           <thead>
@@ -188,6 +187,8 @@ function priceOff () {
         </table>
         <div class="released">Отпустил</div>
         <div class="received">Получил</div>
+        <img v-if="visibleSignatureAndStamp" class="signature" alt="signature" src="../assets/signature.png">
+        <img v-if="visibleSignatureAndStamp" class="stamp" alt="stamp" src="../assets/stamp.png">
       </div>
     </div>
   </div>
@@ -245,35 +246,6 @@ h3 {
   gap: 10px;
   grid-template-columns: 220px 100px;
   justify-content: center;
-}
-
-.btn-wrapper {
-  position: relative;
-  width: 200px;
-  margin: 15px auto;
-  border-radius: 30px;
-  box-shadow: 0 0 20px 9px #d3e7fa;
-}
-.toggle-btn {
-  position: relative;
-  padding: 10px 23px;
-  font-size: 11px;
-  background: none;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.indicator {
-  position: absolute;
-  width: 100px;
-  height: 100%;
-  background: #628bb5;
-  border-radius: 30px;
-  top: 0;
-  left: 0;
-  transition: 0.5s;
 }
 
 .form {
