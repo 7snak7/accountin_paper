@@ -16,7 +16,8 @@ printForm.value = undefined
 const date = ref(null)
 const today = new Date()
 const day = today.getDate() > 9 ? today.getDate() : '0' + today.getDate()
-date.value = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ day
+const month = (today.getMonth() + 1) > 9 ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1)
+date.value = today.getFullYear()+'-'+month+'-'+ day
 const shops = ref([''])
 const works = ref([ { name: '', col: '', price: '' },
                           { name: '', col: '', price: '' },
