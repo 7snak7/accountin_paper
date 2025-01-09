@@ -27,6 +27,8 @@ const works = ref([ { name: '', col: '', price: '' },
                           { name: '', col: '', price: '' },
                           { name: '', col: '', price: '' }])
 const copies = ref(3)
+const score = ref(null)
+score.value = ''
 const visiblePrice = ref(false)
 
 function getDate () {
@@ -116,6 +118,7 @@ function priceOff () {
           <input type="number" class="input" v-model="copies">
           <label class="label">Копии</label>
           <input-date v-model="date"/>
+          <InputText v-model="score"/>
         </div>
       </div>
       <div class="form">
@@ -153,7 +156,7 @@ function priceOff () {
         <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
         <div v-if="date===''" class="data">"__"____________20__г.</div>
         <div v-else class="data">{{ getDate() }} г.</div>
-        <div class="number">№____</div>
+        <div class="number">№ {{ score }}</div>
         <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
         <table class="list">
           <thead>
