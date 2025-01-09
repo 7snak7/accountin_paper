@@ -196,14 +196,14 @@ function priceOff () {
 <style scoped>
 .signature {
   position:absolute;
-  top: 240px;
-  left: 150px;
+  bottom: 20px;
+  left: 220px;
   width: 30%;
 }
 
 .stamp {
   position:absolute;
-  top: 175px;
+  bottom: 2px;
   left: 50px;
   width: 20%;
 }
