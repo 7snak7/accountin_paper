@@ -157,7 +157,7 @@ function savePDF () {
         <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
         <div v-if="date===''" class="data">"__"____________20__г.</div>
         <div v-else class="data">{{ getDate() }} г.</div>
-        <div v-if="score===''" class="number">№_____</div>
+        <div v-if="score===''" class="number"><span style="font-size: 12px; color: red;">Счет не выставлен</span> №_____</div>
         <div v-else class="number">№ {{ score }}</div>
         <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
         <table class="list">
