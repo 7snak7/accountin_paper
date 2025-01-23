@@ -1,11 +1,13 @@
 <script setup>
+import { v4 as uuidv4 } from 'uuid';
+const check = uuidv4();
 // eslint-disable-next-line no-undef
 const model = defineModel()
 </script>
 
 <template>
   <div>
-    <input type="checkbox" id="check" v-model="model"/>
+    <input type="checkbox" :id="check" v-model="model"/>
     <label for="check" class="switch">
       <svg viewBox="0 0 212.4992 84.4688" height="100" overflow="visible">
         <path
@@ -62,7 +64,7 @@ div {
   transform: scaleY(-1);
 }
 
-#check {
+v-bind('check') {
   width: 0;
   height: 0;
   opacity: 0;
