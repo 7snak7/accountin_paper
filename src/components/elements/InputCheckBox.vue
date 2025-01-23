@@ -7,8 +7,8 @@ const model = defineModel()
 
 <template>
   <div>
-    <input type="checkbox" :id="check" v-model="model"/>
-    <label for="check" class="switch">
+    <input type="checkbox" :id="check" class="switcher" v-model="model"/>
+    <label :for="check" class="switch">
       <svg viewBox="0 0 212.4992 84.4688" height="100" overflow="visible">
         <path
             pathLength="360"
@@ -40,7 +40,7 @@ div {
   transition: 0.8s ease-in-out;
 }
 
-#check:checked ~ .switch {
+.switcher:checked ~ .switch {
   background: #628bb5;
   box-shadow: 0 0 0 5px #628bb5;
 }
@@ -59,12 +59,12 @@ div {
   transform-origin: center;
 }
 
-#check:checked ~ .switch svg path {
+.switcher:checked ~ .switch svg path {
   stroke-dashoffset: 180;
   transform: scaleY(-1);
 }
 
-v-bind('check') {
+.switcher {
   width: 0;
   height: 0;
   opacity: 0;

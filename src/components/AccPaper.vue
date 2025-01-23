@@ -8,7 +8,6 @@ import AddBtn from '@/components/elements/AddBtn.vue'
 import DeleteBtn from '@/components/elements/DeleteBtn.vue'
 import InputDate from '@/components/elements/InputDate.vue'
 import InputCheckBox from '@/components/elements/InputCheckBox.vue'
-import InputCheckBox2 from '@/components/elements/InputCheckBox2.vue'
 
 const blank = ref(null)
 blank.value = undefined
@@ -33,6 +32,7 @@ const score = ref(null)
 score.value = ''
 const visiblePrice = ref(false)
 const visibleSignatureAndStamp = ref(true)
+const stampIpOrOOO = ref(false)
 
 function getDate () {
   const months = [ "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря" ];
@@ -105,10 +105,15 @@ function savePDF () {
           <label class="label">Цены</label>
           <InputCheckBox v-model="visiblePrice"/>
         </div>
-        <div style="display: inline-block;">
+        <div style="display: inline-block; margin-left: 20px">
           <label class="label">Печать и подпись</label>
-          <InputCheckBox2 v-model="visibleSignatureAndStamp"/>
+          <InputCheckBox v-model="visibleSignatureAndStamp"/>
         </div>
+        <div style="display: inline-block; margin-left: 20px">
+          <label class="label">ИП/ООО</label>
+          <InputCheckBox v-model="stampIpOrOOO"/>
+        </div>
+        <br>
         <div style="display: inline-block;">
           <label for="copies" class="label">Копии </label>
           <input id="copies" style="width: 50px" type="number" class="input" v-model="copies">
@@ -153,8 +158,14 @@ function savePDF () {
   <div ref="printForm" id="printArea">
     <div class="shopBlank" v-for="shop in shops" :key="shop">
       <div ref="blank" class="container" v-for="n in copies" :key="n">
-        <div class="head">Акт выполненных работ</div>
-        <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
+        <template v-if="stampIpOrOOO">
+          <div class="head">Передаточный документ</div>
+          <div class="logo"><img alt="Logo" class="logoImg" src="../assets/logo_ooo.png"></div>
+        </template>
+        <template v-else>
+          <div class="head">Акт выполненных работ</div>
+          <div class="logo"><img alt="Logo" src="../assets/logo.png"></div>
+        </template>
         <div v-if="date===''" class="data">"__"____________20__г.</div>
         <div v-else class="data">{{ getDate() }} г.</div>
         <div v-if="score===''" class="number"><span style="color: red;">№_____</span></div>
@@ -188,7 +199,12 @@ function savePDF () {
         <div class="released">Отпустил</div>
         <div class="received">Получил</div>
         <img v-if="visibleSignatureAndStamp" class="signature" alt="signature" src="../assets/signature.png">
-        <img v-if="visibleSignatureAndStamp" class="stamp" alt="stamp" src="../assets/stamp.png">
+        <template v-if="stampIpOrOOO">
+          <img v-if="visibleSignatureAndStamp" class="stamp" :ref="ip" alt="stamp" src="../assets/stamp_ooo.png">
+        </template>
+        <template v-else>
+          <img v-if="visibleSignatureAndStamp" class="stamp" :ref="ooo" alt="stamp" src="../assets/stamp.png">
+        </template>
       </div>
     </div>
   </div>
@@ -364,6 +380,12 @@ h3 {
 .logo {
   grid-row: 1/3;
   grid-column: 3/4;
+
+}
+
+.logoImg {
+  height: 60px;
+  float: right;
 }
 
 .shop, .received, .released {
