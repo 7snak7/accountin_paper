@@ -159,7 +159,7 @@ function savePDF () {
     <div class="shopBlank" v-for="shop in shops" :key="shop">
       <div ref="blank" class="container" v-for="n in copies" :key="n">
         <template v-if="stampIpOrOOO">
-          <div class="head">Передаточный документ</div>
+          <div class="head">Передаточный акт</div>
           <div class="logo"><img alt="Logo" class="logoImg" src="../assets/logo_ooo.png"></div>
         </template>
         <template v-else>
@@ -200,10 +200,10 @@ function savePDF () {
         <div class="received">Получил</div>
         <img v-if="visibleSignatureAndStamp" class="signature" alt="signature" src="../assets/signature.png">
         <template v-if="stampIpOrOOO">
-          <img v-if="visibleSignatureAndStamp" class="stamp" :ref="ip" alt="stamp" src="../assets/stamp_ooo.png">
+          <img v-if="visibleSignatureAndStamp" class="stamp" alt="stamp" src="../assets/stamp_ooo.png">
         </template>
         <template v-else>
-          <img v-if="visibleSignatureAndStamp" class="stamp" :ref="ooo" alt="stamp" src="../assets/stamp.png">
+          <img v-if="visibleSignatureAndStamp" class="stamp" alt="stamp" src="../assets/stamp.png">
         </template>
       </div>
     </div>
@@ -223,6 +223,7 @@ function savePDF () {
   bottom: 2px;
   left: 50px;
   width: 20%;
+  opacity: 0.75;
 }
 
 .bg {
