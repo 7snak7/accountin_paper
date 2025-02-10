@@ -138,7 +138,7 @@ function savePDF () {
       <div class="form">
         <table style="width:100%;">
           <tr>
-            <td style="width:70%; text-align: center">
+            <td style="width:60%; text-align: center">
               <h3>Магазин</h3>
               <InputText
                   style="width: 100%"
@@ -148,7 +148,7 @@ function savePDF () {
                   autofocus
               />
             </td>
-            <td style="width:30%; text-align: center">
+            <td style="width:40%; text-align: center">
               <h3>Ответственный</h3>
               <InputText
                   style="width: 100%"
@@ -192,8 +192,10 @@ function savePDF () {
         <div v-else class="data">{{ getDate() }} г.</div>
         <div v-if="score===''" class="number"><span style="color: red;">№_____</span></div>
         <div v-else class="number">№ {{ score }}</div>
-        <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
-        <div class="responsible">Ответ-ный <span class="responsibleName">{{ responsible }}</span></div>
+        <div class="shopAndResponsible">
+          <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
+          <div class="responsible">Ответ-ный <span class="responsibleName">{{ responsible }}</span></div>
+        </div>
         <table class="list">
           <thead>
           <tr class="headList">
@@ -418,26 +420,32 @@ h3 {
   position: relative;
 }
 
+.shopAndResponsible {
+  text-align: left;
+  grid-column: 1/4;
+  position: relative;
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
 .shop {
   text-align: left;
   grid-column: 1/1;
   position: relative;
 }
+
 .responsible {
   text-align: left;
-  grid-column: 2/4;
+  grid-column: 2/2;
   position: relative;
 }
 
-.shopName, .responsibleName {
-  padding-left: 30px;
-}
 
 .shop::before, .received::before, .released::before, .responsible::before {
   content: '';
   position: absolute;
   background-color: black;
-  width: 165px;
+  width: 255px;
   height: 1px;
   bottom: -4px;
   left: 94px;
@@ -454,7 +462,7 @@ h3 {
 }
 
 .responsible::before {
-  width: 365px;
+  width: 276px;
   left: 82px;
 }
 
