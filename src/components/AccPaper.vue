@@ -194,7 +194,7 @@ function savePDF () {
         <div v-else class="number">№ {{ score }}</div>
         <div class="shopAndResponsible">
           <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
-          <div class="responsible">Ответ-ный <span class="responsibleName">{{ responsible }}</span></div>
+          <div class="responsible">Ответственный <span class="responsibleName">{{ responsible }}</span></div>
         </div>
         <table class="list">
           <thead>
@@ -462,8 +462,8 @@ h3 {
 }
 
 .responsible::before {
-  width: 276px;
-  left: 82px;
+  width: 238px;
+  left: 120px;
 }
 
 .released::after, .received::after {
