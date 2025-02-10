@@ -20,7 +20,7 @@ const day = today.getDate() > 9 ? today.getDate() : '0' + today.getDate()
 const month = (today.getMonth() + 1) > 9 ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1)
 date.value = today.getFullYear()+'-'+month+'-'+ day
 const shops = ref([''])
-const responsible = ref(null)
+const responsible = ref('')
 // const responsibleOption = ref([ 'Селезнев Лев',
 //                                       'Миллер Максим',
 //                                       'Гаджиев Анар',
@@ -192,10 +192,17 @@ function savePDF () {
         <div v-else class="data">{{ getDate() }} г.</div>
         <div v-if="score===''" class="number"><span style="color: red;">№_____</span></div>
         <div v-else class="number">№ {{ score }}</div>
-        <div class="shopAndResponsible">
-          <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
-          <div class="responsible">Ответственный <span class="responsibleName">{{ responsible }}</span></div>
-        </div>
+        <template v-if="responsible===''">
+          <div class="shopAndResponsible">
+            <div class="shopMaxSize">Затребовал <span class="shopName">{{ shop }}</span></div>
+          </div>
+        </template>
+        <template v-else>
+          <div class="shopAndResponsible">
+            <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
+            <div class="responsible">Ответственный <span class="responsibleName">{{ responsible }}</span></div>
+          </div>
+        </template>
         <table class="list">
           <thead>
           <tr class="headList">
@@ -428,6 +435,12 @@ h3 {
   grid-template-columns: 50% 50%;
 }
 
+.shopMaxSize {
+  text-align: left;
+  grid-column: 1/2;
+  position: relative;
+}
+
 .shop {
   text-align: left;
   grid-column: 1/1;
@@ -441,7 +454,7 @@ h3 {
 }
 
 
-.shop::before, .received::before, .released::before, .responsible::before {
+.shopMaxSize::before, .shop::before, .received::before, .released::before, .responsible::before {
   content: '';
   position: absolute;
   background-color: black;
@@ -449,6 +462,10 @@ h3 {
   height: 1px;
   bottom: -4px;
   left: 94px;
+}
+
+.shopMaxSize::before {
+  width: 623px;
 }
 
 .released::before {
