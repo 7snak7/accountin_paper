@@ -20,6 +20,15 @@ const day = today.getDate() > 9 ? today.getDate() : '0' + today.getDate()
 const month = (today.getMonth() + 1) > 9 ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1)
 date.value = today.getFullYear()+'-'+month+'-'+ day
 const shops = ref([''])
+const responsible = ref(null)
+// const responsibleOption = ref([ 'Селезнев Лев',
+//                                       'Миллер Максим',
+//                                       'Гаджиев Анар',
+//                                       'Блезнюк Евгений',
+//                                       'Фёдоров Юрий',
+//                                       'Успенская Ольга',
+//                                       'Отдел маркетинга',
+//                                       'Отдел корпоративной культуры',])
 const works = ref([ { name: '', col: '', price: '' },
                           { name: '', col: '', price: '' },
                           { name: '', col: '', price: '' },
@@ -127,14 +136,27 @@ function savePDF () {
         </div>
       </div>
       <div class="form">
-        <h3>Магазин</h3>
-        <InputText
-            style="width: 100%"
-            v-for="(shop, index) in shops"
-            :key="index"
-            v-model="shops[index]"
-            autofocus
-        />
+        <table style="width:100%;">
+          <tr>
+            <td style="width:70%; text-align: center">
+              <h3>Магазин</h3>
+              <InputText
+                  style="width: 100%"
+                  v-for="(shop, index) in shops"
+                  :key="index"
+                  v-model="shops[index]"
+                  autofocus
+              />
+            </td>
+            <td style="width:30%; text-align: center">
+              <h3>Ответственный</h3>
+              <InputText
+                  style="width: 100%"
+                  v-model="responsible"
+              />
+            </td>
+          </tr>
+        </table>
         <add-btn class="add-btn" @click="addShop">Добавить магазин</add-btn>
         <delete-btn v-if="shops.length > 1" class="del-btn" @click="delShop">Удалить магазин</delete-btn>
         <h3>Выполненные работы</h3>
@@ -171,6 +193,7 @@ function savePDF () {
         <div v-if="score===''" class="number"><span style="color: red;">№_____</span></div>
         <div v-else class="number">№ {{ score }}</div>
         <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
+        <div class="responsible">Ответ-ный <span class="responsibleName">{{ responsible }}</span></div>
         <table class="list">
           <thead>
           <tr class="headList">
@@ -389,21 +412,32 @@ h3 {
   float: right;
 }
 
-.shop, .received, .released {
+.received, .released {
   text-align: left;
   grid-column: 1/4;
   position: relative;
 }
 
-.shopName {
+.shop {
+  text-align: left;
+  grid-column: 1/1;
+  position: relative;
+}
+.responsible {
+  text-align: left;
+  grid-column: 2/4;
+  position: relative;
+}
+
+.shopName, .responsibleName {
   padding-left: 30px;
 }
 
-.shop::before, .received::before, .released::before {
+.shop::before, .received::before, .released::before, .responsible::before {
   content: '';
   position: absolute;
   background-color: black;
-  width: 623px;
+  width: 165px;
   height: 1px;
   bottom: -4px;
   left: 94px;
@@ -417,6 +451,11 @@ h3 {
 .received::before {
   width: 649px;
   left: 68px;
+}
+
+.responsible::before {
+  width: 365px;
+  left: 82px;
 }
 
 .released::after, .received::after {
