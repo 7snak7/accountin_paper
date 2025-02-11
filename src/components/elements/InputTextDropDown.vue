@@ -3,6 +3,8 @@ import { ref } from 'vue'
 // eslint-disable-next-line no-undef
 const model = defineModel()
 const txt = ref(null)
+// eslint-disable-next-line no-undef
+const props = defineProps(['option'])
 txt.value = undefined
 function changeSize () {
   txt.value.style.height = 'min-content'
@@ -11,7 +13,6 @@ function changeSize () {
 }
 function itemClick (st) {
   model.value = st
-
 }
 </script>
 
@@ -20,14 +21,7 @@ function itemClick (st) {
     <textarea ref="txt" @keyup="changeSize" v-model="model"></textarea>
 
     <div class="dropdown-list">
-      <div class="dropdown-list__item" @click="itemClick('Селезнев Лев')">Селезнев Лев</div>
-      <div class="dropdown-list__item" @click="itemClick('Миллер Максим')">Миллер Максим</div>
-      <div class="dropdown-list__item" @click="itemClick('Гаджиев Анар')">Гаджиев Анар</div>
-      <div class="dropdown-list__item" @click="itemClick('Блезнюк Евгений')">Блезнюк Евгений</div>
-      <div class="dropdown-list__item" @click="itemClick('Фёдоров Юрий')">Фёдоров Юрий</div>
-      <div class="dropdown-list__item" @click="itemClick('Успенская Ольга')">Успенская Ольга</div>
-      <div class="dropdown-list__item" @click="itemClick('Отдел маркетинга')">Отдел маркетинга</div>
-      <div class="dropdown-list__item" @click="itemClick('Отдел корпоративной культуры')">Отдел корпоративной культуры</div>
+      <div v-for="(item, index) in props.option" :key="index" class="dropdown-list__item" @click="itemClick(item)">{{ item }}</div>
     </div>
   </div>
 </template>
@@ -41,7 +35,6 @@ function itemClick (st) {
   opacity: 1;
   visibility: visible;
 }
-
 
 .dropdown-list {
   border-radius: 4px;

@@ -22,14 +22,14 @@ const month = (today.getMonth() + 1) > 9 ? (today.getMonth() + 1) : '0' + (today
 date.value = today.getFullYear()+'-'+month+'-'+ day
 const shops = ref([''])
 const responsible = ref('')
-// const responsibleOption = ref([ 'Селезнев Лев',
-//                                       'Миллер Максим',
-//                                       'Гаджиев Анар',
-//                                       'Блезнюк Евгений',
-//                                       'Фёдоров Юрий',
-//                                       'Успенская Ольга',
-//                                       'Отдел маркетинга',
-//                                       'Отдел корпоративной культуры',])
+const responsibleOption = ref([ 'Гаджиев Анар',
+                                      'Блезнюк Евгений',
+                                      'Селезнев Лев',
+                                      'Миллер Максим',
+                                      'Фёдоров Юрий',
+                                      'Успенская Ольга',
+                                      'Отдел маркетинга',
+                                      'Отдел корпоративной культуры',])
 const works = ref([ { name: '', col: '', price: '' },
                           { name: '', col: '', price: '' },
                           { name: '', col: '', price: '' },
@@ -152,6 +152,7 @@ function savePDF () {
             <td style="width:40%; text-align: center">
               <h3>Ответственный</h3>
               <InputTextDropDown
+                  :option="responsibleOption"
                   style="width: 100%"
                   v-model="responsible"
               />
