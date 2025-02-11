@@ -140,7 +140,7 @@ function savePDF () {
         <table style="width:100%;">
           <tr>
             <td style="width:60%; text-align: center">
-              <h3>Магазин</h3>
+              <h3>Затребовал</h3>
               <InputText
                   style="width: 100%"
                   v-for="(shop, index) in shops"
@@ -434,7 +434,7 @@ h3 {
   grid-column: 1/4;
   position: relative;
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 48% 52%;
 }
 
 .shopMaxSize {
@@ -455,19 +455,22 @@ h3 {
   position: relative;
 }
 
+.shopName, .responsibleName {
+  margin-left: 3px;
+}
 
 .shopMaxSize::before, .shop::before, .received::before, .released::before, .responsible::before {
   content: '';
   position: absolute;
   background-color: black;
-  width: 255px;
+  width: 623px;
   height: 1px;
   bottom: -4px;
   left: 94px;
 }
 
-.shopMaxSize::before {
-  width: 623px;
+.shop::before {
+  width: 242px;
 }
 
 .released::before {
@@ -481,7 +484,7 @@ h3 {
 }
 
 .responsible::before {
-  width: 238px;
+  width: 252px;
   left: 120px;
 }
 
