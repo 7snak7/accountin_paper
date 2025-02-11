@@ -8,6 +8,7 @@ import AddBtn from '@/components/elements/AddBtn.vue'
 import DeleteBtn from '@/components/elements/DeleteBtn.vue'
 import InputDate from '@/components/elements/InputDate.vue'
 import InputCheckBox from '@/components/elements/InputCheckBox.vue'
+import InputTextDropDown from "@/components/elements/InputTextDropDown.vue";
 
 const blank = ref(null)
 blank.value = undefined
@@ -150,7 +151,7 @@ function savePDF () {
             </td>
             <td style="width:40%; text-align: center">
               <h3>Ответственный</h3>
-              <InputText
+              <InputTextDropDown
                   style="width: 100%"
                   v-model="responsible"
               />
