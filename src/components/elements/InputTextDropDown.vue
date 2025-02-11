@@ -36,6 +36,11 @@ function itemClick (st) {
   visibility: visible;
 }
 
+textarea:focus + .dropdown-list {
+  opacity: 1;
+  visibility: visible;
+}
+
 .dropdown-list {
   border-radius: 4px;
   background-color: white;
