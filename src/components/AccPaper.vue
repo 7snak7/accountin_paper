@@ -23,7 +23,7 @@ date.value = today.getFullYear()+'-'+month+'-'+ day
 const shops = ref([''])
 const responsible = ref('')
 const responsibleOption = ref([ 'Гаджиев Анар',
-                                      'Блезнюк Евгений',
+                                      'Близнюк Евгений',
                                       'Селезнев Лев',
                                       'Миллер Максим',
                                       'Фёдоров Юрий',
