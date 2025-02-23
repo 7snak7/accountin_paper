@@ -1,14 +1,14 @@
 <script setup>
 import html2pdf from 'html2pdf.js'
-import InputText from '@/components/elements/InputText.vue'
-import DelBtn from '@/components/elements/DelBtn.vue'
-import RoundedButton from '@/components/elements/RoundedButton.vue'
+import InputText from '@/components/InputText.vue'
+import DelBtn from '@/components/DelBtn.vue'
+import RoundedButton from '@/components/RoundedButton.vue'
 import { onMounted, ref } from 'vue'
-import AddBtn from '@/components/elements/AddBtn.vue'
-import DeleteBtn from '@/components/elements/DeleteBtn.vue'
-import InputDate from '@/components/elements/InputDate.vue'
-import InputCheckBox from '@/components/elements/InputCheckBox.vue'
-import InputTextDropDown from "@/components/elements/InputTextDropDown.vue";
+import AddBtn from '@/components/AddBtn.vue'
+import DeleteBtn from '@/components/DeleteBtn.vue'
+import InputDate from '@/components/InputDate.vue'
+import InputCheckBox from '@/components/InputCheckBox.vue'
+import InputTextDropDown from "@/components/InputTextDropDown.vue";
 import { ResponsiblePersonService } from '@/services/responsiblePerson'
 
 const blank = ref(null)
@@ -22,6 +22,7 @@ const day = today.getDate() > 9 ? today.getDate() : '0' + today.getDate()
 const month = (today.getMonth() + 1) > 9 ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1)
 date.value = today.getFullYear()+'-'+month+'-'+ day
 const shops = ref([''])
+
 const responsible = ref('')
 const responsiblePersons = ref([])
 const works = ref([ { name: '', col: '', price: '' },
@@ -101,8 +102,10 @@ function savePDF () {
 onMounted(() => {
   ResponsiblePersonService
       .allPersons()
-      .then(persons => {
-        responsiblePersons.value = persons.data.map((person) => {
+      .then(data => {
+        responsiblePersons.value = data.data._embedded.responsiblePersons.sort(function(a, b) {
+          return (a.id>b.id) ? 1 : -1
+        }).map((person) => {
           return person.name
         })
       })

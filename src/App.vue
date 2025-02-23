@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import AccPaper from './components/AccPaper.vue'
+import AccPaper from './pages/AccPaper.vue'
 </script>
 
 <style>
