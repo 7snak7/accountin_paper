@@ -10,6 +10,7 @@ import InputDate from '@/components/InputDate.vue'
 import InputCheckBox from '@/components/InputCheckBox.vue'
 import InputTextDropDown from "@/components/InputTextDropDown.vue";
 import { ResponsiblePersonService } from '@/services/responsiblePerson'
+import { AnixShopService } from '@/services/anixShop'
 
 const blank = ref(null)
 blank.value = undefined
@@ -21,8 +22,8 @@ const today = new Date()
 const day = today.getDate() > 9 ? today.getDate() : '0' + today.getDate()
 const month = (today.getMonth() + 1) > 9 ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1)
 date.value = today.getFullYear()+'-'+month+'-'+ day
-const shops = ref([''])
-
+const shops = ref(['О'])
+const anixShops = ref([])
 const responsible = ref('')
 const responsiblePersons = ref([])
 const works = ref([ { name: '', col: '', price: '' },
@@ -109,6 +110,15 @@ onMounted(() => {
           return person.name
         })
       })
+  AnixShopService
+      .anixShops()
+      .then(data => {
+        anixShops.value = data.data._embedded.anixShops.sort(function(a, b) {
+          return (a.id>b.id) ? 1 : -1
+        }).map((shop) => {
+          return shop.name
+        })
+      })
 })
 
 </script>
@@ -148,7 +158,8 @@ onMounted(() => {
           <tr>
             <td style="width:60%; text-align: center">
               <h3>Затребовал</h3>
-              <InputText
+              <InputTextDropDown
+                  :option="anixShops"
                   style="width: 100%"
                   v-for="(shop, index) in shops"
                   :key="index"

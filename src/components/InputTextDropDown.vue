@@ -6,14 +6,18 @@ const txt = ref(null)
 // eslint-disable-next-line no-undef
 const props = defineProps(['option'])
 txt.value = undefined
+console.log(model.value)
 function changeSize () {
   txt.value.style.height = 'min-content'
   const scHeight = txt.value.scrollHeight
   txt.value.style.height = scHeight + 'px'
+
 }
 function itemClick (st) {
   model.value = st
 }
+let options = () => props.option.filter(f => f.indexOf(model.value)? f : f)
+
 </script>
 
 <template>
@@ -21,7 +25,10 @@ function itemClick (st) {
     <textarea ref="txt" @keyup="changeSize" v-model="model"></textarea>
 
     <div class="dropdown-list">
-      <div v-for="(item, index) in props.option" :key="index" class="dropdown-list__item" @click="itemClick(item)">{{ item }}</div>
+        <div v-for="(item, index) in options"
+             :key="index" class="dropdown-list__item"
+             @click="itemClick(item)"
+        >{{ item }}</div>
     </div>
   </div>
 </template>
@@ -42,6 +49,8 @@ textarea:focus + .dropdown-list {
 }
 
 .dropdown-list {
+  max-height: 490px;
+  overflow-y: auto;
   border-radius: 4px;
   background-color: white;
   position: absolute;
