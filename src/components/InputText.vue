@@ -5,8 +5,8 @@ const model = defineModel()
 const txt = ref(null)
 txt.value = undefined
 function changeSize () {
-  txt.value.style.height = 'min-content'
-  const scHeight = txt.value.scrollHeight
+  txt.value.style.height = '29px'
+  const scHeight = txt.value.scrollHeight + 2
   txt.value.style.height = scHeight + 'px'
 }
 </script>
@@ -17,17 +17,20 @@ function changeSize () {
 
 <style scoped>
 textarea {
-  margin: 1px 0;
-  padding: 2px 0;
-  height: 35px;
-  background: none;
+  box-sizing:border-box;
+  margin: 2px 2px;
+  width: 100%;
+  height: 29px;
+  padding: 5px 5px 5px 5px;
   outline: none;
-  border: 1px solid #89b1d8;
-  border-radius: 5px;
   resize: none;
+  font-size: 14px;
+  border-radius: 5px;
+  border-color: #89b1d8;
+  max-height: 330px;
 }
 textarea:focus {
-  border: 1px solid #000000;
+  border-color: #000000;
 }
 textarea::-webkit-scrollbar {
   width: 0;

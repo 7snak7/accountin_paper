@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 // eslint-disable-next-line no-undef
 const model = defineModel()
 const txt = ref(null)
@@ -8,21 +8,23 @@ const props = defineProps(['option'])
 txt.value = undefined
 console.log(model.value)
 function changeSize () {
-  txt.value.style.height = 'min-content'
-  const scHeight = txt.value.scrollHeight
+  txt.value.style.height = '29px'
+  const scHeight = txt.value.scrollHeight + 2
   txt.value.style.height = scHeight + 'px'
-
 }
 function itemClick (st) {
   model.value = st
 }
-let options = () => props.option.filter(f => f.indexOf(model.value)? f : f)
+
+const options = computed(() => {
+  return props.option.filter(f => f.toLowerCase().includes(model.value.toLowerCase()))
+})
 
 </script>
 
 <template>
   <div class="dropdown">
-    <textarea ref="txt" @keyup="changeSize" v-model="model"></textarea>
+    <textarea ref="txt" @keyup="changeSize" v-model="model" v-bind="$attrs"></textarea>
 
     <div class="dropdown-list">
         <div v-for="(item, index) in options"
@@ -35,7 +37,7 @@ let options = () => props.option.filter(f => f.indexOf(model.value)? f : f)
 
 <style scoped>
 .dropdown {
-  width: 100%;
+  max-width: 100%;
   position: relative;
 }
 .dropdown:hover .dropdown-list {
@@ -61,7 +63,7 @@ textarea:focus + .dropdown-list {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s linear, visibility 0.2s linear;
-  transform: translateY(10px);
+  transform: translateY(-5px);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .dropdown-list:before {
@@ -83,18 +85,20 @@ textarea:focus + .dropdown-list {
 }
 
 textarea {
+  box-sizing:border-box;
+  margin: 2px 2px;
   width: 100%;
-  margin: 1px 0;
-  padding: 2px 0;
-  height: 35px;
-  background: none;
+  height: 29px;
+  padding: 5px 5px 5px 20px;
   outline: none;
-  border: 1px solid #89b1d8;
-  border-radius: 5px;
   resize: none;
+  font-size: 14px;
+  border-radius: 5px;
+  border-color: #89b1d8;
+  max-height: 330px;
 }
 textarea:focus {
-  border: 1px solid #000000;
+  border-color: #000000;
 }
 textarea::-webkit-scrollbar {
   width: 0;
