@@ -114,7 +114,7 @@ onMounted(() => {
       .anixShops()
       .then(data => {
         anixShops.value = data.data._embedded.anixShops.sort(function(a, b) {
-          return (a.id>b.id) ? 1 : -1
+          return (a.name.toLowerCase()>b.name.toLowerCase()) ? 1 : -1
         }).map((shop) => {
           return shop.name
         })
