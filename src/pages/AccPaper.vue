@@ -159,7 +159,7 @@ onMounted(() => {
             <td style="width:60%; text-align: center">
               <h3>Затребовал</h3>
               <InputTextDropDown
-                  :option="anixShops"
+                  :option="anixShops.filter( function( el ) {return shops.indexOf( el ) < 0} )"
                   style="width: 100%"
                   v-for="(shop, index) in shops"
                   :key="index"
