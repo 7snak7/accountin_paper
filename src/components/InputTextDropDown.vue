@@ -51,7 +51,7 @@ textarea:focus + .dropdown-list {
 }
 
 .dropdown-list {
-  max-height: 490px;
+  max-height: 440px;
   overflow-y: auto;
   border-radius: 4px;
   background-color: white;

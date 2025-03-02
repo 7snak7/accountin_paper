@@ -186,8 +186,8 @@ onMounted(() => {
         >
           <del-btn v-if="works.length > 1" @click="delWorksFromId(index)">X</del-btn>
           <InputText style="flex: 1" v-model="works[index].name"/>
-          <InputText style="width: 30px" v-model="works[index].col"/>
-          <InputText v-if="visiblePrice" style="width: 45px" v-model="works[index].price"/>
+          <InputText style="width: 60px" v-model="works[index].col"/>
+          <InputText v-if="visiblePrice" style="width: 60px" v-model="works[index].price"/>
         </div>
         <add-btn class="add-btn" @click="addWorks">Добавить строку</add-btn>
         <delete-btn v-if="works.length > 1" class="del-btn" @click="delWorks">Удалить строку</delete-btn>
