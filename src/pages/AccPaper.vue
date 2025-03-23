@@ -193,6 +193,7 @@ onMounted(() => {
         <delete-btn v-if="works.length > 1" class="del-btn" @click="delWorks">Удалить строку</delete-btn>
         <rounded-button @click="savePDF">Сохранить PDF</rounded-button>
         <rounded-button @click="printPage">Печать</rounded-button>
+        <rounded-button @click="$router.push({ name: 'Home' })">На главную</rounded-button>
       </div>
     </div>
   </div>
@@ -290,10 +291,11 @@ onMounted(() => {
 #noPrint {
   width: 100%;
   height: 100%;
-  padding: 10px 0;
+  padding: 0;
   margin: 0;
   display: flex;
   justify-content: center;
+  align-items: center;
   z-index: 1;
 }
 
