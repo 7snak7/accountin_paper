@@ -194,7 +194,7 @@ onMounted(() => {
     </div>
   </div>
   <AccPaperPrint
-      id="printForm"
+      ref="printForm"
       class="print-only"
       :date="getDate()"
       :shops="shops"
@@ -244,11 +244,7 @@ h3 {
   color: #628bb5;
 }
 
-#printForm, #printForm * {
-  display: none !important;
-}
-
-.print-only, .print-only * {
+.print-only {
   display: none !important;
 }
 
@@ -265,12 +261,12 @@ h3 {
     size: A4;
   }
 
-  .print-hide, .print-hide * {
+  .print-hide {
     display: none !important;
   }
 
-  .print-only, .print-only * {
-    display: none !important;
+  .print-only {
+    display: block !important;
   }
 
   html, body {

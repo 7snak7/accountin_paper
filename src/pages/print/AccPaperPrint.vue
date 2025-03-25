@@ -10,63 +10,64 @@ defineProps({
   responsible: { type: String },
   visiblePrice: { type: Boolean },
   visibleSignatureAndStamp: { type: Boolean },
-
 })
 </script>
 
 <template>
-  <div class="shopBlank" v-for="shop in shops" :key="shop">
-    <div ref="blank" class="container" v-for="n in copies" :key="n">
-      <template v-if="stampIpOrOOO">
-        <div class="head">Передаточный акт</div>
-        <div class="logo"><img alt="Logo" class="logoImg" src="../../assets/logo_ooo.png"></div>
-      </template>
-      <template v-else>
-        <div class="head">Акт выполненных работ</div>
-        <div class="logo"><img alt="Logo" src="../../assets/logo.png"></div>
-      </template>
-      <div v-if="date===''" class="data">"__"____________20__г.</div>
-      <div v-else class="data">{{ date }} г.</div>
-      <div v-if="score===''" class="number"><span style="color: red;">№_____</span></div>
-      <div v-else class="number">№ {{ score }}</div>
-      <div class="shopAndResponsible">
-        <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
-        <div class="responsible">Ответственный <span class="responsibleName">{{ responsible }}</span></div>
+  <div>
+    <div class="shopBlank" v-for="shop in shops" :key="shop">
+      <div ref="blank" class="container" v-for="n in copies" :key="n">
+        <template v-if="stampIpOrOOO">
+          <div class="head">Передаточный акт</div>
+          <div class="logo"><img alt="Logo" class="logoImg" src="../../assets/logo_ooo.png"></div>
+        </template>
+        <template v-else>
+          <div class="head">Акт выполненных работ</div>
+          <div class="logo"><img alt="Logo" src="../../assets/logo.png"></div>
+        </template>
+        <div v-if="date===''" class="data">"__"____________20__г.</div>
+        <div v-else class="data">{{ date }} г.</div>
+        <div v-if="score===''" class="number"><span style="color: red;">№_____</span></div>
+        <div v-else class="number">№ {{ score }}</div>
+        <div class="shopAndResponsible">
+          <div class="shop">Затребовал <span class="shopName">{{ shop }}</span></div>
+          <div class="responsible">Ответственный <span class="responsibleName">{{ responsible }}</span></div>
+        </div>
+        <table class="list">
+          <thead>
+          <tr class="headList">
+            <th>№</th>
+            <th>Наименование</th>
+            <th>Кол-во</th>
+            <th v-if="visiblePrice">Цена</th>
+            <th v-if="visiblePrice">Сумма</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="(work, index) in works" :key="index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ work.name }}</td>
+            <td>{{ work.col }}</td>
+            <td v-if="visiblePrice">{{ work.price }}</td>
+            <td v-if="visiblePrice">{{
+                (work.price.replace(/,/g, '.').replace(/[^\d.-]/g, "")
+                    * work.col.replace(/,/g, '.').replace(/[^\d.-]/g, "") > 0)
+                    ? (work.price.replace(/,/g, '.').replace(/[^\d.-]/g, "")
+                        * work.col.replace(/,/g, '.').replace(/[^\d.-]/g, "")).toFixed(2)
+                    +work.price.replace(/[0-9]/g, '')  : '' }}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="released">Отпустил</div>
+        <div class="received">Получил</div>
+        <img v-if="visibleSignatureAndStamp" class="signature" alt="signature" src="../../assets/signature.png">
+        <template v-if="stampIpOrOOO">
+          <img v-if="visibleSignatureAndStamp" class="stamp" alt="stamp" src="../../assets/stamp_ooo.png">
+        </template>
+        <template v-else>
+          <img v-if="visibleSignatureAndStamp" class="stamp" alt="stamp" src="../../assets/stamp.png">
+        </template>
       </div>
-      <table class="list">
-        <thead>
-        <tr class="headList">
-          <th>№</th>
-          <th>Наименование</th>
-          <th>Кол-во</th>
-          <th v-if="visiblePrice">Цена</th>
-          <th v-if="visiblePrice">Сумма</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="(work, index) in works" :key="index">
-          <td>{{ index + 1 }}</td>
-          <td>{{ work.name }}</td>
-          <td>{{ work.col }}</td>
-          <td v-if="visiblePrice">{{ work.price }}</td>
-          <td v-if="visiblePrice">{{
-              (work.price.replace(/,/g, '.').replace(/[^\d.-]/g, "")
-                  * work.col.replace(/,/g, '.').replace(/[^\d.-]/g, "") > 0)
-                  ? (work.price.replace(/,/g, '.').replace(/[^\d.-]/g, "")
-                      * work.col.replace(/,/g, '.').replace(/[^\d.-]/g, "")).toFixed(2)
-                  +work.price.replace(/[0-9]/g, '')  : '' }}</td>
-        </tr>
-        </tbody>
-      </table>
-      <div class="released">Отпустил</div>
-      <div class="received">Получил</div>
-      <img v-if="visibleSignatureAndStamp" class="signature" alt="signature" src="../../assets/signature.png">
-      <template v-if="stampIpOrOOO">
-        <img v-if="visibleSignatureAndStamp" class="stamp" alt="stamp" src="../../assets/stamp_ooo.png">
-      </template>
-      <template v-else>
-        <img v-if="visibleSignatureAndStamp" class="stamp" alt="stamp" src="../../assets/stamp.png">
-      </template>
     </div>
   </div>
 </template>
