@@ -11,6 +11,7 @@ import InputCheckBox from '@/components/InputCheckBox.vue'
 import InputTextDropDown from '@/components/InputTextDropDown.vue'
 import { ResponsiblePersonService } from '@/services/responsiblePerson'
 import { AnixShopService } from '@/services/anixShop'
+import AccPaperPrint from "@/pages/print/AccPaperPrint.vue";
 
 const blank = ref(null)
 blank.value = undefined
@@ -22,6 +23,12 @@ const today = new Date()
 const day = today.getDate() > 9 ? today.getDate() : '0' + today.getDate()
 const month = (today.getMonth() + 1) > 9 ? (today.getMonth() + 1) : '0' + (today.getMonth() + 1)
 date.value = today.getFullYear()+'-'+month+'-'+ day
+function getDate () {
+  const months = [ "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря" ];
+  const dateSplit = date.value.split('-')
+  return dateSplit[2] + ' ' + months[dateSplit[1]-1] + ' ' + dateSplit[0];
+}
+
 const shops = ref([''])
 const anixShops = ref([])
 const responsible = ref('')
@@ -117,73 +124,88 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <div style="display: inline-block;">
-      <label class="label">Цены</label>
-      <InputCheckBox v-model="visiblePrice"/>
+  <div class="print-hide">
+    <div>
+      <div style="display: inline-block;">
+        <label class="label">Цены</label>
+        <InputCheckBox v-model="visiblePrice"/>
+      </div>
+      <div style="display: inline-block; margin-left: 20px">
+        <label class="label">Печать и подпись</label>
+        <InputCheckBox v-model="visibleSignatureAndStamp"/>
+      </div>
+      <div style="display: inline-block; margin-left: 20px">
+        <label class="label">ИП/ООО</label>
+        <InputCheckBox v-model="stampIpOrOOO"/>
+      </div>
+      <br>
+      <div style="display: inline-block;">
+        <label for="copies" class="label">Копии </label>
+        <input id="copies" style="width: 50px" type="number" class="input" v-model="copies">
+      </div>
+      <div style="display: inline-block;">
+        <label for="score" class="label">Счет </label>
+        <input id="score" style="width: 50px" type="number" class="input" v-model="score">
+      </div>
+      <div style="display: inline-block;">
+        <input-date style="margin: 10px" v-model="date"/>
+      </div>
     </div>
-    <div style="display: inline-block; margin-left: 20px">
-      <label class="label">Печать и подпись</label>
-      <InputCheckBox v-model="visibleSignatureAndStamp"/>
-    </div>
-    <div style="display: inline-block; margin-left: 20px">
-      <label class="label">ИП/ООО</label>
-      <InputCheckBox v-model="stampIpOrOOO"/>
-    </div>
-    <br>
-    <div style="display: inline-block;">
-      <label for="copies" class="label">Копии </label>
-      <input id="copies" style="width: 50px" type="number" class="input" v-model="copies">
-    </div>
-    <div style="display: inline-block;">
-      <label for="score" class="label">Счет </label>
-      <input id="score" style="width: 50px" type="number" class="input" v-model="score">
-    </div>
-    <div style="display: inline-block;">
-      <input-date style="margin: 10px" v-model="date"/>
+    <div class="form">
+      <table style="width:100%;">
+        <tr>
+          <td style="width:60%; text-align: center">
+            <h3>Затребовал</h3>
+            <InputTextDropDown
+                :option="anixShops.filter( function( el ) {return shops.indexOf( el ) < 0} )"
+                style="width: 100%"
+                v-for="(shop, index) in shops"
+                :key="index"
+                v-model="shops[index]"
+                autofocus
+            />
+          </td>
+          <td style="width:40%; text-align: center">
+            <h3>Ответственный</h3>
+            <InputTextDropDown
+                :option="responsiblePersons"
+                style="width: 100%"
+                v-model="responsible"
+            />
+          </td>
+        </tr>
+      </table>
+      <add-btn class="add-btn" @click="addShop">Добавить магазин</add-btn>
+      <delete-btn v-if="shops.length > 1" class="del-btn" @click="delShop">Удалить магазин</delete-btn>
+      <h3>Выполненные работы</h3>
+      <div
+          v-for="(work, index) in works" :key="index"
+          class="work"
+      >
+        <del-btn v-if="works.length > 1" @click="delWorksFromId(index)">X</del-btn>
+        <InputText style="flex: 1" v-model="works[index].name"/>
+        <InputText style="width: 60px" v-model="works[index].col"/>
+        <InputText v-if="visiblePrice" style="width: 60px" v-model="works[index].price"/>
+      </div>
+      <add-btn class="add-btn" @click="addWorks">Добавить строку</add-btn>
+      <delete-btn v-if="works.length > 1" class="del-btn" @click="delWorks">Удалить строку</delete-btn>
+      <rounded-button @click="savePDF">Сохранить PDF</rounded-button>
+      <rounded-button @click="printPage">Печать</rounded-button>
     </div>
   </div>
-  <div class="form">
-    <table style="width:100%;">
-      <tr>
-        <td style="width:60%; text-align: center">
-          <h3>Затребовал</h3>
-          <InputTextDropDown
-              :option="anixShops.filter( function( el ) {return shops.indexOf( el ) < 0} )"
-              style="width: 100%"
-              v-for="(shop, index) in shops"
-              :key="index"
-              v-model="shops[index]"
-              autofocus
-          />
-        </td>
-        <td style="width:40%; text-align: center">
-          <h3>Ответственный</h3>
-          <InputTextDropDown
-              :option="responsiblePersons"
-              style="width: 100%"
-              v-model="responsible"
-          />
-        </td>
-      </tr>
-    </table>
-    <add-btn class="add-btn" @click="addShop">Добавить магазин</add-btn>
-    <delete-btn v-if="shops.length > 1" class="del-btn" @click="delShop">Удалить магазин</delete-btn>
-    <h3>Выполненные работы</h3>
-    <div
-        v-for="(work, index) in works" :key="index"
-        class="work"
-    >
-      <del-btn v-if="works.length > 1" @click="delWorksFromId(index)">X</del-btn>
-      <InputText style="flex: 1" v-model="works[index].name"/>
-      <InputText style="width: 60px" v-model="works[index].col"/>
-      <InputText v-if="visiblePrice" style="width: 60px" v-model="works[index].price"/>
-    </div>
-    <add-btn class="add-btn" @click="addWorks">Добавить строку</add-btn>
-    <delete-btn v-if="works.length > 1" class="del-btn" @click="delWorks">Удалить строку</delete-btn>
-    <rounded-button @click="savePDF">Сохранить PDF</rounded-button>
-    <rounded-button @click="printPage">Печать</rounded-button>
-  </div>
+  <AccPaperPrint
+      id="printForm"
+      class="print-only"
+      :date="getDate()"
+      :shops="shops"
+      :works="works"
+      :copies="copies"
+      :stampIpOrOOO="stampIpOrOOO"
+      :score="score"
+      :responsible="responsible"
+      :visiblePrice="visiblePrice"
+      :visibleSignatureAndStamp="visibleSignatureAndStamp"
+  />
 </template>
 
 <style scoped>
@@ -222,6 +244,14 @@ h3 {
   color: #628bb5;
 }
 
+#printForm, #printForm * {
+  display: none !important;
+}
+
+.print-only, .print-only * {
+  display: none !important;
+}
+
 @media print {
   /* Спрятать URL при печати */
   a[href]:after {
@@ -235,56 +265,17 @@ h3 {
     size: A4;
   }
 
-  #noPrint, #noPrint *, .bg {
-    display: none;
+  .print-hide, .print-hide * {
+    display: none !important;
   }
 
-  #printArea {
-    display: block !important;
-  }
-
-  .shopBlank {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
+  .print-only, .print-only * {
+    display: none !important;
   }
 
   html, body {
     height: 297mm;
     width: 210mm;
   }
-
-  * {
-    -webkit-print-color-adjust: exact !important;
-    color-adjust: exact !important;
-  }
-}
-
-
-.list td, .list th {
-  border: 1px solid black;
-  font-size: 11pt;
-  padding-left: 3px;
-  padding-right: 3px;
-}
-
-td:nth-child(1) {
-  width: 20px;
-}
-
-td:nth-child(2) {
-  text-align: left;
-  padding-left: 10px;
-}
-
-.headList td {
-  text-align: center;
-}
-
-td:nth-child(n+3) {
-  width: 64px;
-}
-
-img {
-  max-width: 100%;
 }
 </style>

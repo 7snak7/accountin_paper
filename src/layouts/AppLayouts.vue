@@ -1,12 +1,11 @@
 <script setup>
-import RoundedButton from '@/components/RoundedButton.vue'
+
 </script>
 
 <template>
   <div class="home">
     <div class="bg"></div>
     <div class="wrapper">
-      <rounded-button @click="$router.push({ name: 'Home' })">На главную</rounded-button>
       <router-view/>
     </div>
   </div>

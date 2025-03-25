@@ -22,4 +22,8 @@ html, body {
   height: 100%;
   width: 100%;
 }
+* {
+  -webkit-print-color-adjust: exact !important;
+  color-adjust: exact !important;
+}
 </style>
