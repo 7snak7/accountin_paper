@@ -189,8 +189,10 @@ onMounted(() => {
       </div>
       <add-btn class="add-btn" @click="addWorks">Добавить строку</add-btn>
       <delete-btn v-if="works.length > 1" class="del-btn" @click="delWorks">Удалить строку</delete-btn>
-      <rounded-button @click="savePDF">Сохранить PDF</rounded-button>
-      <rounded-button @click="printPage">Печать</rounded-button>
+      <div style="display: block;">
+        <rounded-button @click="savePDF">Сохранить PDF</rounded-button>
+        <rounded-button @click="printPage">Печать</rounded-button>
+      </div>
     </div>
   </div>
   <AccPaperPrint
@@ -231,17 +233,17 @@ h3 {
   width: 30px;
   background: none;
   outline: none;
-  border: 1px solid #89b1d8;
+  border: 1px solid #5874C6;
   border-radius: 5px;
   resize: none;
 }
 .input:focus {
-  border: 1px solid #000000;
+  border: 1px solid #4463bf;
 }
 .label {
   font-size: 12px;
   margin-left: 5px;
-  color: #628bb5;
+  color: #5874C6;
 }
 
 .print-only {

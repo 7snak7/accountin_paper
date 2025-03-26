@@ -51,10 +51,11 @@ textarea:focus + .dropdown-list {
 }
 
 .dropdown-list {
-  max-height: 440px;
+  max-height: 380px;
   overflow-y: auto;
   border-radius: 4px;
   background-color: white;
+  font-weight: bold;
   position: absolute;
   z-index: 999;
   top: 100%;
@@ -64,7 +65,7 @@ textarea:focus + .dropdown-list {
   visibility: hidden;
   transition: opacity 0.2s linear, visibility 0.2s linear;
   transform: translateY(-5px);
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 rgba(110, 113, 128, 0.2), 0 6px 20px 0 rgba(184, 202, 248, 0.9);
 }
 .dropdown-list:before {
   content: "";
@@ -80,7 +81,8 @@ textarea:focus + .dropdown-list {
   padding: 1rem;
 }
 .dropdown-list__item:hover {
-  background-color: #89b1d8;
+  background-color: #4463bf;
+  color: white;
   cursor: pointer;
 }
 
@@ -94,11 +96,11 @@ textarea {
   resize: none;
   font-size: 14px;
   border-radius: 5px;
-  border-color: #89b1d8;
+  border-color: #5874C6;
   max-height: 330px;
 }
 textarea:focus {
-  border-color: #000000;
+  border-color: #4463bf;
 }
 textarea::-webkit-scrollbar {
   width: 0;

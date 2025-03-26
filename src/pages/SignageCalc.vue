@@ -1,15 +1,14 @@
 <script setup>
 import {ref, onMounted, reactive} from 'vue'
 import { SignagePriceService } from '@/services/signagePriceService'
+import RoundedButton from '@/components/RoundedButton.vue'
 
 const dropArea = ref(null)
-const fileSelector = ref(null)
 const fileSelectorInput = ref(null)
 const files = ref([])
 const signageService = new SignagePriceService()
 
 onMounted(() => {
-  fileSelector.value.onclick = () => fileSelectorInput.value.click()
   fileSelectorInput.value.onchange = () => {
     [...fileSelectorInput.value.files].forEach(file => {
       if (validateFileType(file.name)) {
@@ -48,6 +47,8 @@ onMounted(() => {
     })
   }
 })
+
+function fileSelectorClick() {fileSelectorInput.value.click()}
 
 function validateFileType(name) {
   const extension = name.split('.').pop().toLowerCase()
@@ -108,13 +109,12 @@ function removeFile(index) {
   </div>
 
   <div class="drop-section" ref="dropArea">
-    <div class="col">
       <div class="cloud-icon">
         <img src="@/assets/icons/cloud.png" alt="cloud">
       </div>
       <span>Перетащите сюда plt файлы</span>
       <span>ИЛИ</span>
-      <button class="file-selector" ref="fileSelector">Просмотр файлов</button>
+      <rounded-button @click="fileSelectorClick">Просмотр файлов</rounded-button>
       <input
           type="file"
           class="file-selector-input"
@@ -122,10 +122,6 @@ function removeFile(index) {
           ref="fileSelectorInput"
           accept=".plt"
       >
-    </div>
-    <div class="col">
-      <div class="drop-here">Drop Here</div>
-    </div>
   </div>
 
   <div class="list-section" v-if="files.length > 0">
@@ -278,17 +274,13 @@ function removeFile(index) {
 }
 .table thead th {
   font-weight: bold;
-  text-align: left;
+  text-align: center;
   border: none;
   padding: 10px 15px;
-  background: #d8d8d8;
-  font-size: 14px;
-}
-.table thead tr th:first-child {
-  border-radius: 8px 0 0 8px;
-}
-.table thead tr th:last-child {
-  border-radius: 0 8px 8px 0;
+  color: white;
+  background: #5874C6;
+  font-size: 18px;
+  border-radius: 8px;
 }
 .table tbody td {
   text-align: left;
@@ -298,7 +290,7 @@ function removeFile(index) {
   vertical-align: top;
 }
 .table tbody tr:nth-child(even){
-  background: #f3f3f3;
+  background: #F1F6FF;
 }
 .table tbody tr td:first-child {
   border-radius: 8px 0 0 8px;
@@ -382,24 +374,11 @@ function removeFile(index) {
   margin-bottom: 20px;
 }
 
-.drop-section span,
-.drop-section button {
+.drop-section span {
   display: block;
   margin: auto;
   color: #707EA0;
   margin-bottom: 10px;
-}
-
-.drop-section button {
-  color: white;
-  background-color: #5874C6;
-  border: none;
-  outline: none;
-  padding: 7px 20px;
-  border-radius: 8px;
-  margin-top: 20px;
-  cursor: pointer;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 
 .drop-section input {
@@ -423,6 +402,7 @@ function removeFile(index) {
   padding-bottom: 2px;
   border-radius: 8px;
   transition-duration: 0.2s;
+  box-shadow: #E3EAF9 0px 0px 4px 0px, #E3EAF9 0px 12px 16px 0px;
 }
 
 .row {
@@ -430,10 +410,6 @@ function removeFile(index) {
   justify-content: space-between;
   margin: 10px;
   transition-duration: 0.2s;
-}
-
-.file-item:hover {
-  box-shadow: #E3EAF9 0px 0px 4px 0px, #E3EAF9 0px 12px 16px 0px;
 }
 
 .file-item .col {

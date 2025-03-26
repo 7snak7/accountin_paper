@@ -11,7 +11,7 @@
   border: none;
   outline: none;
   background: none;
-  color: #628bb5;
+  color: #4463bf;
   cursor: pointer;
   position: relative;
   font-size: 14px;

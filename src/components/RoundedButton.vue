@@ -3,38 +3,36 @@
 </script>
 
 <template>
-  <button class="btn">
+  <button>
     <slot></slot>
   </button>
 </template>
 
 <style scoped>
-.btn {
-  display: block;
-  width: 100%;
-  background-color: #628bb5;
+button {
+  background-color: #5874C6;
   font-weight: bold;
-  color: #fff;
+  color: white;
   font-size: 20px;
-  margin: 10px auto;
+  margin: 10px;
   padding: 10px 20px;
   outline: none;
   border: none;
-  border-radius: 30px;
-  box-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) inset, 1px 1px 5px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
-.btn:hover {
-  background-color: #6f9cca;
+button:hover {
+  background-color: #4463bf;
 }
-.btn:active {
+button:active {
   position: relative;
   top: 1px;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4) inset;
 }
-.btn:focus {
-  background-color: #6f9cca;
+button:focus {
+  background-color: #4463bf;
 }
 </style>

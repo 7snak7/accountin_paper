@@ -33,16 +33,16 @@ div {
   top: 5px;
   width: 50px;
   height: 20px;
-  background: #818181;
+  background: rgba(88, 116, 198, 0.6);
   border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 0 0 5px #818181;
+  box-shadow: 0 0 0 5px rgba(88, 116, 198, 0.6);
   transition: 0.8s ease-in-out;
 }
 
 .switcher:checked ~ .switch {
-  background: #628bb5;
-  box-shadow: 0 0 0 5px #628bb5;
+  background: #5874C6;
+  box-shadow: 0 0 0 5px #5874C6;
 }
 
 .switch svg {

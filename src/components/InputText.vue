@@ -26,11 +26,11 @@ textarea {
   resize: none;
   font-size: 14px;
   border-radius: 5px;
-  border-color: #89b1d8;
+  border-color: #5874C6;
   max-height: 330px;
 }
 textarea:focus {
-  border-color: #000000;
+  border-color: #4463bf;
 }
 textarea::-webkit-scrollbar {
   width: 0;

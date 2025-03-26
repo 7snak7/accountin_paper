@@ -19,7 +19,7 @@ defineProps({
       <div ref="blank" class="container" v-for="n in copies" :key="n">
         <template v-if="stampIpOrOOO">
           <div class="head">Передаточный акт</div>
-          <div class="logo"><img alt="Logo" class="logoImg" src="../../assets/logo_ooo.png"></div>
+          <div class="logo"><img alt="Logo" class="logoImg" src="@/assets/logo_ooo.png"></div>
         </template>
         <template v-else>
           <div class="head">Акт выполненных работ</div>

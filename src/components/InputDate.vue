@@ -12,7 +12,7 @@ input {
   border: none;
   outline: none;
   color: #fff;
-  background-color: #628bb5;
+  background-color: #5874C6;
   border-radius: 30px;
   padding-left: 10px;
   font-weight: bold;
