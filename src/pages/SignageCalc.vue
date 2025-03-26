@@ -61,7 +61,8 @@ function addFile(file) {
     size: (file.size / (1024 * 1024)).toFixed(2),
     progress: 0,
     status: 'uploading', // 'uploading', 'complete', 'error'
-    file: file
+    file: file,
+    data: {},
   })
 
   files.value.unshift(fileItem)
@@ -79,7 +80,9 @@ async function uploadFile(fileItem) {
       }
     }
 
-    await signageService.calcPrice(formData, onUploadProgress)
+    const response = await signageService.calcPrice(formData, onUploadProgress)
+    fileItem.data = response.data[0]
+    console.log(fileItem)
     fileItem.status = 'complete'
   } catch (error) {
     console.error('File upload failed:', error)
@@ -134,56 +137,133 @@ function removeFile(index) {
           class="file-item"
           :class="file.status"
       >
-        <div class="col">
-          <img src="@/assets/icons/plt.png" alt="">
-        </div>
-
-        <div class="col">
-          <div class="file-name">
-            <div class="name">{{ file.name }}</div>
-            <span v-if="file.status === 'uploading'">{{ file.progress }}%</span>
-            <span v-else-if="file.status === 'error'" class="error-text">{{ file.error }}</span>
+        <div class="row">
+          <div class="col">
+            <img src="@/assets/icons/plt.png" alt="">
           </div>
 
-          <div class="file-progress" v-if="file.status === 'uploading'">
-            <span :style="{ width: file.progress + '%' }"></span>
+          <div class="col">
+            <div class="file-name">
+              <div class="name">{{ file.name }}</div>
+              <span v-if="file.status === 'uploading'">{{ file.progress }}%</span>
+              <span v-else-if="file.status === 'error'" class="error-text">{{ file.error }}</span>
+            </div>
+
+            <div class="file-progress" v-if="file.status === 'uploading'">
+              <span :style="{ width: file.progress + '%' }"></span>
+            </div>
+
+            <div class="file-size">{{ file.size }} MB</div>
           </div>
 
-          <div class="file-size">{{ file.size }} MB</div>
+          <div class="col">
+            <svg
+                v-if="file.status === 'uploading'"
+                xmlns="http://www.w3.org/2000/svg"
+                class="cross"
+                height="20"
+                width="20"
+                @click="removeFile(index)"
+            >
+              <path d="m5.979 14.917-.854-.896 4-4.021-4-4.062.854-.896 4.042 4.062 4-4.062.854.896-4 4.062 4 4.021-.854.896-4-4.063Z"/>
+            </svg>
+
+            <svg
+                v-if="file.status === 'complete'"
+                xmlns="http://www.w3.org/2000/svg"
+                class="tick"
+                height="20"
+                width="20"
+            >
+              <path d="m8.229 14.438-3.896-3.917 1.438-1.438 2.458 2.459 6-6L15.667 7Z"/>
+            </svg>
+
+            <svg
+                v-if="file.status === 'error'"
+                xmlns="http://www.w3.org/2000/svg"
+                class="error-icon"
+                height="20"
+                width="20"
+                @click="removeFile(index)"
+            >
+              <path d="M10 11.063 7.104 14 6 12.896 8.938 10 6 7.104 7.104 6 10 8.938 12.896 6 14 7.104 11.063 10 14 12.896 12.896 14Z"/>
+            </svg>
+          </div>
         </div>
-
-        <div class="col">
-          <svg
-              v-if="file.status === 'uploading'"
-              xmlns="http://www.w3.org/2000/svg"
-              class="cross"
-              height="20"
-              width="20"
-              @click="removeFile(index)"
-          >
-            <path d="m5.979 14.917-.854-.896 4-4.021-4-4.062.854-.896 4.042 4.062 4-4.062.854.896-4 4.062 4 4.021-.854.896-4-4.063Z"/>
-          </svg>
-
-          <svg
-              v-if="file.status === 'complete'"
-              xmlns="http://www.w3.org/2000/svg"
-              class="tick"
-              height="20"
-              width="20"
-          >
-            <path d="m8.229 14.438-3.896-3.917 1.438-1.438 2.458 2.459 6-6L15.667 7Z"/>
-          </svg>
-
-          <svg
-              v-if="file.status === 'error'"
-              xmlns="http://www.w3.org/2000/svg"
-              class="error-icon"
-              height="20"
-              width="20"
-              @click="removeFile(index)"
-          >
-            <path d="M10 11.063 7.104 14 6 12.896 8.938 10 6 7.104 7.104 6 10 8.938 12.896 6 14 7.104 11.063 10 14 12.896 12.896 14Z"/>
-          </svg>
+        <div v-if="file.status === 'complete'" class="">
+          <table class="table">
+            <thead>
+            <tr>
+              <th colspan="2">Расчет стоимости</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>Ширина</td>
+              <td>{{ file.data.width }} м</td>
+            </tr>
+            <tr>
+              <td>Высота</td>
+              <td>{{ file.data.height }} м</td>
+            </tr>
+            <tr>
+              <td>Площадь</td>
+              <td>{{ file.data.area }} м<sup>2</sup></td>
+            </tr>
+            <tr>
+              <td>Габаритная площадь</td>
+              <td>{{ file.data.dimensions }} м<sup>2</sup></td>
+            </tr>
+            <tr>
+              <td>Длинна борта</td>
+              <td>{{ file.data.boardLength }} м</td>
+            </tr>
+            <tr>
+              <td>Сборка</td>
+              <td>{{ file.data.assembly }} р</td>
+            </tr>
+            <tr>
+              <td>Борт</td>
+              <td>{{ file.data.board }} р</td>
+            </tr>
+            <tr>
+              <td>Пластик на дно букв</td>
+              <td>{{ file.data.pvh4 }} р</td>
+            </tr>
+            <tr>
+              <td>Полистирол</td>
+              <td>{{ file.data.polystyrene }} р</td>
+            </tr>
+            <tr>
+              <td>Клей</td>
+              <td>{{ file.data.glue }} р</td>
+            </tr>
+            <tr>
+              <td>ШВВП</td>
+              <td>{{ file.data.shvvp }} р</td>
+            </tr>
+            <tr>
+              <td>Рама</td>
+              <td>{{ file.data.frame }} р</td>
+            </tr>
+            <tr>
+              <td>Печать на лица букв</td>
+              <td>{{ file.data.print }} р</td>
+            </tr>
+            <tr>
+              <td>Диоды</td>
+              <td>{{ file.data.diodes }} р</td>
+            </tr>
+            <tr>
+              <td>Блок питания</td>
+              <td>{{ file.data.powerUnit }} р</td>
+            </tr>
+            <tr>
+              <td>Полная стоимость</td>
+              <td>{{ file.data.totalPrice }} р</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -191,6 +271,43 @@ function removeFile(index) {
 </template>
 
 <style scoped>
+.table {
+  width: 100%;
+  border: none;
+  margin-bottom: 20px;
+}
+.table thead th {
+  font-weight: bold;
+  text-align: left;
+  border: none;
+  padding: 10px 15px;
+  background: #d8d8d8;
+  font-size: 14px;
+}
+.table thead tr th:first-child {
+  border-radius: 8px 0 0 8px;
+}
+.table thead tr th:last-child {
+  border-radius: 0 8px 8px 0;
+}
+.table tbody td {
+  text-align: left;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  vertical-align: top;
+}
+.table tbody tr:nth-child(even){
+  background: #f3f3f3;
+}
+.table tbody tr td:first-child {
+  border-radius: 8px 0 0 8px;
+}
+.table tbody tr td:last-child {
+  border-radius: 0 8px 8px 0;
+  text-align: right;
+}
+
 .header-section {
   padding: 25px 0px;
 }
@@ -301,11 +418,17 @@ function removeFile(index) {
 }
 
 .file-item {
-  display: flex;
   margin: 15px 0px;
   padding-top: 4px;
   padding-bottom: 2px;
   border-radius: 8px;
+  transition-duration: 0.2s;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
   transition-duration: 0.2s;
 }
 
@@ -406,5 +529,13 @@ function removeFile(index) {
 .file-item.error .file-progress,
 .file-item.error .tick {
   display: none;
+}
+
+@media (max-width: 425px) {
+
+}
+
+@media (min-width: 760px) {
+
 }
 </style>

@@ -33,6 +33,8 @@
 .wrapper {
   position: relative;
   height: max-content;
+  max-height: 95%;
+  overflow: scroll;
   background-color: #fff;
   border-radius: 10px;
   padding: 5px;
