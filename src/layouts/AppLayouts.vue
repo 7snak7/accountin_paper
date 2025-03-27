@@ -133,15 +133,6 @@ import {faBars, faXmark, faCalculator,  faFileLines} from "@fortawesome/free-sol
 #sidebar_check:checked ~ .btn_open {opacity: 0;}
 #sidebar_check:checked ~ .sidebar_menu .btn_close {opacity: 1;}
 
-@media print {
-  .sidebar_menu {
-    display: none !important;
-  }
-  .btn_open {
-    display: none !important;
-  }
-}
-
 #element::-webkit-scrollbar {
   display: none;
 }
@@ -179,6 +170,7 @@ import {faBars, faXmark, faCalculator,  faFileLines} from "@fortawesome/free-sol
 @media (max-width: 425px) {
   .wrapper {
     width: 335px;
+    max-height: 99%;
   }
   .bg {
     background-color: #fff;
@@ -193,6 +185,15 @@ import {faBars, faXmark, faCalculator,  faFileLines} from "@fortawesome/free-sol
   }
   .bg {
     background-color: #fff;
+  }
+}
+
+@media print {
+  .sidebar_menu {
+    display: none !important;
+  }
+  .btn_open {
+    display: none !important;
   }
 }
 </style>
