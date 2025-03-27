@@ -190,10 +190,14 @@ function removeFile(index) {
           <table class="table">
             <thead>
             <tr>
-              <th colspan="2">Расчет стоимости</th>
+              <th>Стоимость</th>
+              <th>{{ file.data.totalPrice }} р</th>
             </tr>
             </thead>
             <tbody>
+            <tr>
+              <td class="heading" colspan="2">Размеры</td>
+            </tr>
             <tr>
               <td>Ширина</td>
               <td>{{ file.data.width }} м</td>
@@ -213,6 +217,9 @@ function removeFile(index) {
             <tr>
               <td>Длинна борта</td>
               <td>{{ file.data.boardLength }} м</td>
+            </tr>
+            <tr>
+              <td class="heading" colspan="2">Цены</td>
             </tr>
             <tr>
               <td>Сборка</td>
@@ -254,10 +261,6 @@ function removeFile(index) {
               <td>Блок питания</td>
               <td>{{ file.data.powerUnit }} р</td>
             </tr>
-            <tr>
-              <td>Полная стоимость</td>
-              <td>{{ file.data.totalPrice }} р</td>
-            </tr>
             </tbody>
           </table>
         </div>
@@ -280,7 +283,12 @@ function removeFile(index) {
   color: white;
   background: #5874C6;
   font-size: 18px;
-  border-radius: 8px;
+}
+.table thead th:first-child {
+  border-radius: 8px 0 0 8px;
+}
+.table thead th:last-child {
+  border-radius: 0 8px 8px 0;
 }
 .table tbody td {
   text-align: left;
@@ -298,6 +306,14 @@ function removeFile(index) {
 .table tbody tr td:last-child {
   border-radius: 0 8px 8px 0;
   text-align: right;
+}
+.table tbody tr td.heading {
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  padding: 10px 15px;
+  font-size: 18px;
+  border-radius: 8px;
 }
 
 .header-section {

@@ -3,7 +3,7 @@ import html2pdf from 'html2pdf.js'
 import InputText from '@/components/InputText.vue'
 import DelBtn from '@/components/DelBtn.vue'
 import RoundedButton from '@/components/RoundedButton.vue'
-import { onMounted, ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import AddBtn from '@/components/AddBtn.vue'
 import DeleteBtn from '@/components/DeleteBtn.vue'
 import InputDate from '@/components/InputDate.vue'
@@ -11,12 +11,7 @@ import InputCheckBox from '@/components/InputCheckBox.vue'
 import InputTextDropDown from '@/components/InputTextDropDown.vue'
 import { ResponsiblePersonService } from '@/services/responsiblePerson'
 import { AnixShopService } from '@/services/anixShop'
-import AccPaperPrint from "@/pages/print/AccPaperPrint.vue";
-
-const blank = ref(null)
-blank.value = undefined
-const printForm = ref(null)
-printForm.value = undefined
+import AccPaperPrint from "@/pages/print/AccPaperPrint.vue"
 
 const date = ref(null)
 const today = new Date()
@@ -74,15 +69,13 @@ function printPage () {
 }
 
 function savePDF () {
+  const printForm = document.getElementsByClassName('print-only')
+
   let fileName = shops.value[0] === '' ? 'Unnamed.pdf' : shops.value[0]
   if (shops.value.length > 1) {
-    fileName = ''
-    for (let shop of shops.value) {
-      fileName += shop + '_'
-    }
-    fileName = fileName.slice(0,-1)
-    fileName += '.pdf'
+    fileName = shops.value.join('_') + '.pdf';
   }
+
   const options = {
     margin: 4,
     filename: fileName,
@@ -91,14 +84,16 @@ function savePDF () {
     jsPSF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     pagebreak: { mode: 'avoid-all' }
   }
-  printForm.value.style.display = 'block'
+
+  printForm[0].style.display = 'block'
+
   html2pdf()
-    .from(printForm.value)
-    .set(options)
-    .save()
-    .then(() => {
-      printForm.value.style.display = 'none'
-    })
+      .from(printForm[0])
+      .set(options)
+      .save()
+      .then(() => {
+        printForm[0].style.display = 'none'
+      })
 }
 
 onMounted(() => {
@@ -162,7 +157,6 @@ onMounted(() => {
                 v-for="(shop, index) in shops"
                 :key="index"
                 v-model="shops[index]"
-                autofocus
             />
           </td>
           <td style="width:40%; text-align: center">
@@ -196,7 +190,6 @@ onMounted(() => {
     </div>
   </div>
   <AccPaperPrint
-      ref="printForm"
       class="print-only"
       :date="getDate()"
       :shops="shops"
@@ -247,7 +240,7 @@ h3 {
 }
 
 .print-only {
-  display: none !important;
+  display: none;
 }
 
 @media print {
@@ -269,6 +262,7 @@ h3 {
 
   .print-only {
     display: block !important;
+    position: relative;
   }
 
   html, body {
